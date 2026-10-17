@@ -23,8 +23,27 @@
     return node;
   }
   function scrollTop() { window.scrollTo({ top: 0, behavior: 'instant' }); }
+  function fitQuestion() {
+    if (view !== 'study') return;
+    const reader=$('question-reader');
+    const previousTop=reader.scrollTop || 0;
+    reader.dataset.density='normal';
+    if (reader.clientHeight > 0 && reader.scrollHeight > reader.clientHeight + 2) reader.dataset.density='compact';
+    reader.scrollTop=previousTop;
+  }
+  function scheduleFit() {
+    if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(fitQuestion);
+    else fitQuestion();
+  }
+  function openQuestionInfo(showSource=false) {
+    if (!session[position]) return;
+    $('question-info-title').textContent=`${session[position].year} · Soru ${session[position].number}`;
+    if (!$('question-info-dialog').open) $('question-info-dialog').showModal();
+    if (showSource) { $('source-details').open=true;loadSource(session[position]); }
+  }
   function setView(name) {
     view = name;
+    document.documentElement.dataset.view=name;
     $('secim').hidden = name !== 'setup';
     $('cozum').hidden = name !== 'study';
     $('sonuc').hidden = name !== 'results';
@@ -72,6 +91,9 @@
     const q = session[position];
     if (!q) return;
     const answer = answers.get(q.id);
+    const reader=$('question-reader');
+    const previousTop=focus ? 0 : reader.scrollTop || 0;
+    reader.dataset.choiceLayout=q.options.filter(o=>o.image).length>=3 ? 'images' : 'text';
     const reason = C.reviewReason(q);
     $('session-context').textContent = sessionLabel;
     $('question-position').textContent = `SORU ${String(position + 1).padStart(2,'0')} / ${session.length}`;
@@ -89,13 +111,13 @@
       const figure = element('figure','visual-figure');
       const link = element('a'); link.href = src; link.target='_blank'; link.rel='noopener noreferrer';
       const caption=q.visualCaptions[i] || `Kaynak şekli ${i+1}`;
-      const img = element('img'); img.src=src; img.alt=`${q.year}, soru ${q.number}: ${caption}`; img.decoding='async';
+      const img = element('img'); img.src=src; img.alt=`${q.year}, soru ${q.number}: ${caption}`; img.decoding='async';img.addEventListener('load',scheduleFit);
       link.append(img); figure.append(link,element('figcaption','',`${caption} · Büyütmek için dokun.`)); visuals.append(figure);
     }
     if (q.needsVisual && q.visuals.length === 0 && !q.options.some(o=>o.image)) {
-      const hint = element('div','visual-hint','Bu soru için kaynak görselini de incele. Tam sayfa cevap işaretleri içerebilir. ');
-      const button = element('button','text-button','Kaynak görselini aç ↗'); button.type='button';
-      button.addEventListener('click',()=>{$('source-details').open=true;loadSource(q);$('source-details').scrollIntoView({block:'start'});});
+      const hint = element('div','visual-hint');
+      const button = element('button','text-button','Kaynak görseli (cevap işaretli olabilir) ↗'); button.type='button';
+      button.addEventListener('click',()=>openQuestionInfo(true));
       hint.append(button); visuals.append(hint);
     }
     const options = $('question-options'); options.replaceChildren();
@@ -106,7 +128,7 @@
       let text = option.text || 'Bu şık kaynakta okunamıyor.';
       if (option.imageOnly && !option.text) text = 'Şekil kaynak görselinde';
       const body=element('span','option-text',option.image ? '' : text);
-      if (option.image) {const img=element('img','option-image');img.src=option.image;img.alt=`${option.label} şıkkındaki yapı`;body.append(img);}
+      if (option.image) {const img=element('img','option-image');img.src=option.image;img.alt=`${option.label} şıkkındaki yapı`;img.addEventListener('load',scheduleFit);body.append(img);}
       button.append(element('span','option-letter',option.label),body);
       if (answer) {
         if (answer.key === option.label) { button.classList.add('correct'); button.append(element('span','option-state','✓ Doğru')); }
@@ -142,7 +164,9 @@
     $('previous-question').disabled=position===0;
     $('next-question').textContent=position===session.length-1?'Sonuçları gör →':'Sonraki soru →';
     updateStats();
-    if (focus) {scrollTop();$('question-stem').focus({preventScroll:true});}
+    fitQuestion();reader.scrollTop=previousTop;
+    if (focus) {$('question-stem').focus({preventScroll:true});}
+    scheduleFit();
   }
   function loadSource(q) {
     const container=$('source-images');if(container.childElementCount)return;
@@ -187,6 +211,8 @@
   $('nav-bank').addEventListener('click',e=>{e.preventDefault();openBank();});
   $('show-bank').addEventListener('click',openBank);
   $('close-bank').addEventListener('click',()=>$('bank-dialog').close());
+  $('open-question-info').addEventListener('click',()=>openQuestionInfo());
+  $('close-question-info').addEventListener('click',()=>$('question-info-dialog').close());
   $('bank-search').addEventListener('input',renderBank);
   $('source-details').addEventListener('toggle',()=>{if($('source-details').open && session[position])loadSource(session[position]);});
   $('previous-question').addEventListener('click',()=>{if(position>0){position--;renderQuestion(true);}});
@@ -195,8 +221,11 @@
   $('continue-session').addEventListener('click',()=>{setView('study');renderQuestion(true);});
   $('retry-all').addEventListener('click',()=>start(session,sessionLabel));
   $('retry-wrong').addEventListener('click',()=>start(session.filter(q=>answers.get(q.id)?.result==='wrong'),`${sessionLabel} · Yanlışlar`));
-  $('theme-toggle').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';$('theme-label').textContent=dark?'Açık tema':'Koyu tema';$('theme-toggle').setAttribute('aria-label',dark?'Açık temaya geç':'Koyu temaya geç');document.querySelector('meta[name="theme-color"]').content=dark?'#262624':'#f3efe4';});
-  document.addEventListener('keydown',e=>{if(view!=='study'||$('bank-dialog').open||e.altKey||e.ctrlKey||e.metaKey||['INPUT','SELECT','TEXTAREA','BUTTON'].includes(document.activeElement?.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();$('next-question').click();}else if(e.key==='ArrowLeft'){e.preventDefault();$('previous-question').click();}});
+  $('theme-toggle').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';$('theme-label').textContent=dark?'Açık tema':'Koyu tema';for(const id of ['theme-toggle','study-theme-toggle'])$(id).setAttribute('aria-label',dark?'Açık temaya geç':'Koyu temaya geç');document.querySelector('meta[name="theme-color"]').content=dark?'#262624':'#f3efe4';});
+  $('study-theme-toggle').addEventListener('click',()=>$('theme-toggle').click());
+  document.addEventListener('keydown',e=>{if(view!=='study'||$('bank-dialog').open||$('question-info-dialog').open||e.altKey||e.ctrlKey||e.metaKey||['INPUT','SELECT','TEXTAREA','BUTTON'].includes(document.activeElement?.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();$('next-question').click();}else if(e.key==='ArrowLeft'){e.preventDefault();$('previous-question').click();}});
+  window.addEventListener('resize',scheduleFit);
+  window.visualViewport?.addEventListener('resize',scheduleFit);
   window.addEventListener('pageshow',e=>{if(e.persisted){answers=new Map();session=[];position=0;setView('setup');}});
   $('loading-message').hidden=true;updateFilters();setView('setup');
 })();
