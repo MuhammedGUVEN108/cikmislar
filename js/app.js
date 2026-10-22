@@ -59,7 +59,7 @@
     const graded = selected.filter(q => C.gradingKey(q)).length;
     $('filtered-count').textContent = selected.length;
     $('selection-description').textContent = `${f.year || 'Bütün yıllar'} · ${f.subject || 'Bütün dersler'}`;
-    $('set-breakdown').textContent = `${graded} anahtarlı · ${selected.length - graded} inceleme`;
+    $('set-breakdown').textContent = `${graded} cevap anahtarlı · ${selected.length - graded} puan dışı`;
     $('start-session').disabled = selected.length === 0;
     const pool = C.select(all,{year:f.year,includeReview:f.includeReview});
     const list = $('subject-filters'); list.replaceChildren();
@@ -103,7 +103,7 @@
     $('question-id').textContent = q.id;
     $('question-pages').textContent = `Kaynak sayfa: ${q.pages.join(', ')}`;
     $('question-warning').hidden = !reason;
-    $('question-warning').textContent = reason ? `${reason}. Bu soru doğru/yanlış sayılmaz.` : '';
+    $('question-warning').textContent = reason ? `${reason}.${C.gradingKey(q) ? '' : ' Doğru/yanlış sayısına katılmaz.'}` : '';
     $('source-details').open = false;
     $('source-images').replaceChildren();
     const visuals = $('question-visuals'); visuals.replaceChildren();
@@ -147,18 +147,11 @@
       feedback.classList.add(answer.result);
       if (answer.result === 'correct') feedback.textContent=`✓ Doğru. Kaynak anahtarı: ${answer.key}.`;
       else if (answer.result === 'wrong') feedback.textContent=`× Yanlış. Seçimin ${answer.selected}; kaynak anahtarı ${answer.key}.`;
-      else feedback.textContent='! Seçimin alındı. Bu soruda kesin doğru/yanlış değerlendirmesi yapılmaz.';
+      else feedback.textContent=q.status==='cancelled'?'! İptal edilmiş soru; doğru/yanlış sayısına katılmaz.':'! Kaynak cevap anahtarı yok veya okunamıyor; doğru/yanlış sayısına katılmaz.';
     }
     const notes = $('answer-notes'); notes.replaceChildren(); notes.hidden=!answer;
     if (answer) {
-      if (q.sourceKeys.length && !answer.key) notes.append(element('p','',`Kaynakta işaretli seçenek: ${q.sourceKeys.join(', ')}. Bu bilgi kesin doğru cevap olarak değerlendirilmez.`));
-      if (q.recommendedKeys?.length) notes.append(element('p','',`İnceleme notundaki aday seçenekler: ${q.recommendedKeys.join(', ')}.`));
-      if (q.rationale) notes.append(element('p','',q.rationale));
       for (const text of q.correctionNotes) notes.append(element('p','',text));
-      for (const [index,url] of q.references.entries()) {
-        if (!/^https?:\/\//i.test(url)) continue;
-        const a=element('a','',`İnceleme kaynağı ${index+1} ↗`);a.href=url;a.target='_blank';a.rel='noopener noreferrer';notes.append(a);
-      }
       if (!notes.childElementCount) notes.hidden=true;
     }
     $('previous-question').disabled=position===0;
@@ -180,7 +173,7 @@
     const s=C.summarize(session,answers);setView('results');
     $('results-description').textContent=`${sessionLabel} · ${s.total} sorunun ${s.answered} tanesini cevapladın.`;
     const box=$('results-stats');box.replaceChildren();
-    for(const [label,value] of [['Doğru',s.correct],['Yanlış',s.wrong],['İnceleme',s.review],['Cevaplanmadı',s.unanswered]]){
+    for(const [label,value] of [['Doğru',s.correct],['Yanlış',s.wrong],['Puan dışı',s.review],['Cevaplanmadı',s.unanswered]]){
       const item=element('div','result-stat');item.append(element('strong','',value),element('span','',label));box.append(item);
     }
     $('retry-wrong').disabled=s.wrong===0;
@@ -193,7 +186,7 @@
       const a=answers.get(q.id);const mark=a ? {correct:'✓',wrong:'×',review:'!'}[a.result] : '·';
       const b=element('button',`bank-cell ${a?.result||''}`,`${index+1} ${mark}`);b.type='button';
       b.append(element('span','',`${q.year.slice(2,4)}–${q.year.slice(7)} / ${q.number}`));
-      b.setAttribute('aria-label',`${index+1}. soru, ${q.year}, kaynak soru ${q.number}, ${q.subject}, ${a?{correct:'doğru',wrong:'yanlış',review:'inceleme'}[a.result]:'cevaplanmadı'}`);
+      b.setAttribute('aria-label',`${index+1}. soru, ${q.year}, kaynak soru ${q.number}, ${q.subject}, ${a?{correct:'doğru',wrong:'yanlış',review:'puan dışı'}[a.result]:'cevaplanmadı'}`);
       if(position===index)b.setAttribute('aria-current','step');
       b.addEventListener('click',()=>{position=index;$('bank-dialog').close();setView('study');renderQuestion(true);});grid.append(b);
     });

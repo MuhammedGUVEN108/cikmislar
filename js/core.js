@@ -1,30 +1,18 @@
 (function (root) {
   'use strict';
   const allowedLabels = new Set(['A', 'B', 'C', 'D', 'E']);
-  const statusLabels = {
-    cancelled: 'Kaynakta iptal edilmiş soru',
-    source_key_obscured: 'Kaynak cevabı örtülü',
-    ambiguous_wording: 'Soru ifadesi belirsiz',
-    multiple_valid_options: 'Birden fazla geçerli seçenek',
-    source_key_missing_candidate_available: 'Kaynakta cevap anahtarı yok',
-    scientific_error: 'Bilimsel içerik sorunu işaretli',
-    suspected_key_error: 'Cevap anahtarı şüpheli'
-  };
   function normalize(value) {
     return String(value ?? '').toLocaleLowerCase('tr-TR').replace(/ı/g, 'i').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
   function gradingKey(q) {
-    if (q.completeness === 'source_incomplete') return null;
-    if (q.status === 'verified' && q.verifiedKeys?.length === 1 && allowedLabels.has(q.verifiedKeys[0])) return q.verifiedKeys[0];
-    if (q.status !== 'not_independently_verified' || q.sourceKeys.length !== 1) return null;
+    if (q.status === 'cancelled' || q.sourceKeys.length !== 1) return null;
     return allowedLabels.has(q.sourceKeys[0]) ? q.sourceKeys[0] : null;
   }
   function reviewReason(q) {
-    const reasons = [];
-    if (statusLabels[q.status]) reasons.push(statusLabels[q.status]);
-    if (q.completeness === 'source_incomplete') reasons.push('Kaynakta örtülü veya eksik içerik var');
-    if (!reasons.length && !gradingKey(q)) reasons.push('Kesin değerlendirmeye uygun cevap anahtarı yok');
-    return reasons.join(' · ');
+    if (q.status === 'cancelled') return 'Bu soru kaynakta iptal edilmiş';
+    if (!gradingKey(q)) return 'Kaynak cevap anahtarı yok veya okunamıyor';
+    if (q.correctionNotes?.length) return 'Kaynakta bu soruya ilişkin düzeltme notu var';
+    return '';
   }
   function select(questions, filters = {}) {
     return questions.filter(q => (!filters.year || q.year === filters.year) && (!filters.subject || q.subject === filters.subject) && (filters.includeReview !== false || gradingKey(q)));

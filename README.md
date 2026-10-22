@@ -21,9 +21,9 @@ Hesap, çerez, localStorage, sessionStorage, IndexedDB, analiz aracı veya sunuc
 
 ## Cevap ve içerik sınırları
 
-- 433 soru, **bağımsız doğrulanmamış kaynak cevap anahtarına göre** değerlendirilir. Yeşil/kırmızı bilimsel doğruluk garantisi değildir.
-- 18 soru değerlendirme dışındadır: kaynakta iptal/anahtar sorunu bulunan 9 soru ile bunlarla örtüşmeyen 9 eksik kaynak sorusu. Toplam kaynak eksikliği işaretli soru sayısı 10'dur; birinin anahtarı da sorunludur.
-- Bu 18 soruda seçim gösterilir, doğru/yanlış üretilmez. Mevcut inceleme gerekçeleri cevap sonrasında gösterilir.
+- 447 soru, **hocaların yayımladığı kaynak cevap anahtarına göre** değerlendirilir. Editoryal bilimsel şüpheler, alternatif cevap önerileri ve eksik kaynak metni, mevcut cevap anahtarının kullanılmasını engellemez.
+- Kaynakta iptal edilmiş 2 soru ile cevap anahtarı bulunmayan veya okunamayan 2 soru puan dışındadır; bunlar ayrı belirtilir, cevap tahmin edilmez.
+- Arayüzde yalnızca kaynakta bildirilen iptal ve düzeltme notları gösterilir. Özgün verideki editoryal notlar korunur ancak puanlamayı etkilemez ve kullanıcıya gösterilmez.
 - 78 şekil/tablo parçası 45 soruyla ilişkilendirilmiştir. PDF'lerin gömülü görselleri çıkarılmış; taranmış 2021–2022 kaynağındaki ilgili görseller soruya ait alanlardan kesilmiştir. Şekiller yeniden çizilmemiştir.
 - 138 tam kaynak sayfası korunmuştur. Bazı görsel bağlamlar veya eksik alanlar için bu sayfalar ayrıca açılabilir; **cevap işaretleri ve başka sorular içerebilirler**.
 - 2021–2022 kaynağındaki örtülü/okunamayan alanlar tahminle tamamlanmamıştır. Kaynakta olmayan açıklamalar veya bilimsel cevap düzeltmeleri eklenmemiştir.
