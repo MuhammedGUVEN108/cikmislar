@@ -1,0 +1,10 @@
+# Publish only the study site's runtime files; no build step is required.
+/*
+!/index.html
+!/soru-arsivi.html
+!/css/
+!/css/**
+!/js/
+!/js/**
+!/assets/
+!/assets/**
