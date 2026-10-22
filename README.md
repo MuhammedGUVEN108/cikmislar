@@ -15,9 +15,11 @@
 - Sonuçlar ekranından yanlışlar veya aynı set yeniden çözülebilir. Cevapsız sorular yanlış sayılmaz.
 - Açık/koyu tema geçişi vardır. Tema tercihi kaydedilmez.
 
-## Kayıt tutulmaz
+## Çözüm kaydı ve ziyaret istatistikleri
 
-Hesap, çerez, localStorage, sessionStorage, IndexedDB, analiz aracı veya sunucuya sonuç gönderimi yoktur. Seçimler ve sayaçlar yalnızca açık sayfanın belleğindedir; sayfa yenilendiğinde silinir. Görselleri ayrı sekmede açmak mevcut çözüm sekmesini sıfırlamaz. Normal tarayıcı dosya önbelleği, uygulamanın çözüm geçmişi kaydetmesi değildir.
+Hesap, çerez, localStorage, sessionStorage, IndexedDB veya sunucuya çözüm sonucu gönderimi yoktur. Seçimler ve sayaçlar yalnızca açık sayfanın belleğindedir; sayfa yenilendiğinde silinir. Görselleri ayrı sekmede açmak mevcut çözüm sekmesini sıfırlamaz. Normal tarayıcı dosya önbelleği, uygulamanın çözüm geçmişi kaydetmesi değildir.
+
+Kullanıcının isteğiyle ana sayfaya ve okunabilir arşive Cloudflare Web Analytics eklenmiştir. Genel ziyaret ve performans istatistikleri Cloudflare panelinden izlenir; soru seçimleri, verilen cevaplar ve doğru/yanlış sonuçları analize gönderilmez. Analiz internet bağlantısı gerektirir; soru çözümü çevrimdışı çalışmayı sürdürür.
 
 ## Cevap ve içerik sınırları
 

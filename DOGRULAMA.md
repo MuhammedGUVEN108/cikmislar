@@ -1,5 +1,7 @@
 # Cevap anahtarı güncellemesi · 22 Ekim 2026
 
+- Sonradan kullanıcının isteğiyle ana sayfaya ve okunabilir arşive Cloudflare Web Analytics kodu eklenmiştir. İlk sürümde analiz aracı bulunmadığına ilişkin aşağıdaki kayıt tarihseldir; çözüm cevapları ve sonuçları hâlâ gönderilmez.
+
 - Puanlama, kullanıcının isteğiyle hocaların yayımladığı kaynak cevap anahtarını esas alır: **447 puanlanan soru**, **2 iptal**, **2 anahtarı bulunmayan/okunamayan soru**.
 - Editoryal bilimsel şüphe ve alternatif cevap önerileri puanlamayı durdurmaz; bu notlar arayüzden ve okunabilir arşivden kaldırılmıştır. Özgün soru verisi korunmuştur.
 - JavaScript sözdizimi, cevap değerlendirmesi, filtreleme ve bellekte çalışan DOM benzetimindeki kırmızı/yeşil geri bildirim kontrolü geçti. Gerçek tarayıcı/telefon testi yapılmadı.
