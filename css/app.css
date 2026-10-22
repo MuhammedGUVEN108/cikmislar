@@ -101,17 +101,39 @@ summary { cursor: pointer; min-height: 48px; padding: 13px 0; }
 .about-panel p { color: var(--wd-secondary); max-width: 85ch; }
 .about-panel > a { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 8px; }
 .page-footer { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0 27px; font: 8px var(--wd-font-mono); color: var(--wd-muted); letter-spacing: .5px; }
-.ataturk-tribute { display: grid; grid-template-columns: minmax(0,192px) minmax(0,1fr); align-items: center; gap: clamp(24px,4vw,56px); margin: 40px 0 0; padding: 32px 0; border-top: 1px solid var(--wd-line-strong); }
-.ataturk-portrait { display: block; width: 100%; height: auto; border: 1px solid var(--wd-line); }
-.ataturk-tribute figcaption { min-width: 0; }
-.ataturk-tribute blockquote { margin: 0; }
-.ataturk-tribute blockquote p { margin: 0; max-width: 22ch; font: 500 clamp(27px,3.5vw,45px)/1.25 var(--wd-font-display); letter-spacing: -.6px; text-wrap: balance; }
-.ataturk-signature { margin: 24px 0 0; padding-top: 15px; border-top: 1px solid var(--wd-line); width: fit-content; max-width: 100%; font: 11px/1.8 var(--wd-font-mono); color: var(--wd-secondary); }
+@font-face { font-family: 'Cikmislar Memorial'; src: url('../assets/fonts/memorial-regular.woff2') format('woff2'); font-style: normal; font-weight: 300 700; font-display: swap; }
+@font-face { font-family: 'Cikmislar Memorial'; src: url('../assets/fonts/memorial-italic.woff2') format('woff2'); font-style: italic; font-weight: 300 700; font-display: swap; }
+.ataturk-tribute { --tribute-bg: #191b1c; --tribute-text: #f3eee3; --tribute-muted: #c4bcad; --tribute-accent: #c3a879; display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); margin: 44px 0 0; background: var(--tribute-bg); color: var(--tribute-text); border: 1px solid #343532; isolation: isolate; }
+.ataturk-photograph { position: relative; min-height: 450px; overflow: hidden; }
+.ataturk-portrait { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; filter: grayscale(1) contrast(1.06) brightness(.9); }
+.ataturk-photograph::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent 58%,var(--tribute-bg)),linear-gradient(0deg,var(--tribute-bg),transparent 27%); pointer-events: none; }
+.ataturk-dedication { min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: clamp(30px,4vw,55px) clamp(25px,3.5vw,50px) 30px 16px; }
+.ataturk-tribute .ataturk-remembrance { margin: 0 0 26px; color: var(--tribute-accent); font: 500 9px/1.7 var(--wd-font-body); letter-spacing: .2em; text-transform: uppercase; }
+.ataturk-remembrance::before { content: ''; display: block; width: 35px; height: 1px; background: var(--tribute-accent); margin-bottom: 16px; }
+.ataturk-tribute blockquote { margin: 0; width: 100%; }
+.ataturk-tribute blockquote p { margin: 0; max-width: none; font: 500 clamp(33px,3.8vw,53px)/1.12 'Cikmislar Memorial',Georgia,serif; letter-spacing: -.025em; text-wrap: balance; }
+.ataturk-tribute blockquote span, .ataturk-tribute blockquote em { display: block; }
+.ataturk-tribute blockquote em { font-weight: 500; color: var(--tribute-accent); }
+.ataturk-signature { margin-top: 32px; }
+.ataturk-tribute .ataturk-name { margin: 0; }
+.ataturk-name > span { display: block; font: 400 11px/1.6 var(--wd-font-body); letter-spacing: .12em; }
+.ataturk-name > strong { display: block; margin: 4px 0 0; font: 500 35px/1 'Cikmislar Memorial',Georgia,serif; text-transform: uppercase; letter-spacing: .12em; }
+.ataturk-tribute .ataturk-dates { margin: 14px 0 0; font: 400 10px/1.5 var(--wd-font-body); letter-spacing: .2em; color: var(--tribute-muted); }
+.ataturk-dates > span { margin-inline: 7px; color: var(--tribute-accent); }
+.ataturk-tribute .ataturk-memory { margin: 25px 0 0; font: 400 10px/1.6 var(--wd-font-body); color: var(--tribute-muted); }
+.archive-content h2 { white-space: pre-line; }
 @media (max-width: 640px) {
-  .ataturk-tribute { grid-template-columns: minmax(0,1fr); justify-items: center; text-align: center; gap: 25px; padding: 28px 0; margin-top: 32px; }
-  .ataturk-portrait { width: min(100%,180px); }
-  .ataturk-tribute blockquote p { margin-inline: auto; }
-  .ataturk-signature { margin-inline: auto; }
+  .ataturk-tribute { grid-template-columns: minmax(0,1fr); margin-top: 32px; }
+  .ataturk-photograph { min-height: 0; aspect-ratio: 1.18; }
+  .ataturk-portrait { object-position: 50% 27%; }
+  .ataturk-photograph::after { background: linear-gradient(0deg,var(--tribute-bg),transparent 43%); }
+  .ataturk-dedication { align-items: center; text-align: center; padding: 5px 22px 30px; }
+  .ataturk-tribute .ataturk-remembrance { margin-bottom: 20px; font-size: 8px; }
+  .ataturk-remembrance::before { margin-inline: auto; margin-bottom: 14px; }
+  .ataturk-tribute blockquote p { font-size: clamp(31px,8vw,39px); line-height: 1.1; }
+  .ataturk-signature { margin-top: 26px; }
+  .ataturk-name > strong { font-size: 32px; }
+  .ataturk-tribute .ataturk-memory { margin-top: 22px; }
 }
 .study-view { padding-bottom: 30px; }
 .study-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 18px 0 24px; }
