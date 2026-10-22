@@ -101,6 +101,18 @@ summary { cursor: pointer; min-height: 48px; padding: 13px 0; }
 .about-panel p { color: var(--wd-secondary); max-width: 85ch; }
 .about-panel > a { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 8px; }
 .page-footer { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0 27px; font: 8px var(--wd-font-mono); color: var(--wd-muted); letter-spacing: .5px; }
+.ataturk-tribute { display: grid; grid-template-columns: minmax(0,192px) minmax(0,1fr); align-items: center; gap: clamp(24px,4vw,56px); margin: 40px 0 0; padding: 32px 0; border-top: 1px solid var(--wd-line-strong); }
+.ataturk-portrait { display: block; width: 100%; height: auto; border: 1px solid var(--wd-line); }
+.ataturk-tribute figcaption { min-width: 0; }
+.ataturk-tribute blockquote { margin: 0; }
+.ataturk-tribute blockquote p { margin: 0; max-width: 22ch; font: 500 clamp(27px,3.5vw,45px)/1.25 var(--wd-font-display); letter-spacing: -.6px; text-wrap: balance; }
+.ataturk-signature { margin: 24px 0 0; padding-top: 15px; border-top: 1px solid var(--wd-line); width: fit-content; max-width: 100%; font: 11px/1.8 var(--wd-font-mono); color: var(--wd-secondary); }
+@media (max-width: 640px) {
+  .ataturk-tribute { grid-template-columns: minmax(0,1fr); justify-items: center; text-align: center; gap: 25px; padding: 28px 0; margin-top: 32px; }
+  .ataturk-portrait { width: min(100%,180px); }
+  .ataturk-tribute blockquote p { margin-inline: auto; }
+  .ataturk-signature { margin-inline: auto; }
+}
 .study-view { padding-bottom: 30px; }
 .study-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 18px 0 24px; }
 #session-context { font-size: 11px; text-align: center; }
