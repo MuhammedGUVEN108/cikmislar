@@ -207,11 +207,27 @@ summary { cursor: pointer; min-height: 48px; padding: 13px 0; }
 .release-dialog > .wd-button { width: 100%; }
 @media (max-width: 640px) {
   .wd-nav ol { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 5px; }
-  .grade-layout { grid-template-columns: minmax(0,1fr); gap: 22px; }
-  .grades-view { padding: 28px 20px; }
-  .grade-results { grid-template-columns: minmax(0,1fr); }
-  .grade-entry { grid-template-columns: minmax(0,1fr) 100px; }
-  .grade-result { padding: 20px; }
+  .grade-layout { grid-template-columns: minmax(0,1fr); gap: 16px; margin-top: 16px; }
+  .grades-view { padding: 18px 16px; }
+  .grades-view > .wd-kicker { margin-bottom: 6px; }
+  .wd-page .grades-view h2 { font-size: 32px; margin-bottom: 8px; }
+  .grades-intro { font-size: 12px; line-height: 1.5; }
+  .grade-form-heading { padding-bottom: 8px; }
+  .grade-form { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 14px; }
+  .grade-form-heading, .grade-error, .grade-form > .text-button { grid-column: 1 / -1; }
+  .grade-inputs { display: contents; }
+  .grade-entry { grid-template-columns: minmax(0,1fr); gap: 5px; padding: 8px 0; }
+  .grade-entry label { font-size: 12px; }
+  .grade-entry .field-hint { margin-top: 0; font-size: 9px; line-height: 1.4; }
+  .grade-entry input { min-height: 44px; padding: 9px 11px; font-size: 16px; }
+  .grade-final-entry { margin-top: 0; border-top: 0; }
+  .grade-form > .text-button { justify-self: start; margin-top: 2px; min-height: 44px; }
+  .grade-results { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .grade-result { min-width: 0; padding: 12px; }
+  .grade-result > p { margin-bottom: 7px; font-size: 10px; line-height: 1.4; }
+  .grade-result > strong { font-size: 26px; letter-spacing: -.4px; }
+  .grade-result > span { margin-top: 7px; font-size: 10px; line-height: 1.45; }
+  .grade-footnote { margin-top: 12px !important; font-size: 10px; line-height: 1.5; }
 }
 .answer-notes { font-size: 12px; background: var(--wd-surface); border-left: 3px solid var(--wd-gold); padding: 16px; margin-top: 16px; overflow-wrap: anywhere; }
 .answer-notes p { max-width: none; white-space: pre-line; }
