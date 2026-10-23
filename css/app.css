@@ -171,6 +171,48 @@ summary { cursor: pointer; min-height: 48px; padding: 13px 0; }
 .answer-feedback.correct { color: var(--app-success-ink); }
 .answer-feedback.wrong { color: var(--app-danger-ink); }
 .answer-feedback.review { color: var(--wd-secondary); }
+.ai-support { margin-top: 16px; border-top: 1px solid var(--wd-line); font-family: var(--wd-font-body); }
+.ai-support > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 10px 0; list-style: none; font-size: 12px; font-weight: 600; }
+.ai-support > summary::-webkit-details-marker { display: none; }
+.ai-support > summary > span { font-size: 18px; font-weight: 400; color: var(--wd-muted); }
+.ai-support[open] > summary > span { transform: rotate(45deg); }
+.ai-support-content { padding: 1px 0 12px; }
+.ai-disclaimer { display: block; margin: 0 0 10px; color: var(--wd-muted); font-size: 11px; line-height: 1.6; }
+.ai-support .ai-explanation { max-width: 85ch; margin: 0; color: var(--wd-secondary); font-size: 14px; line-height: 1.65; white-space: pre-line; overflow-wrap: anywhere; }
+.grades-view { padding: 40px clamp(24px,4vw,64px); }
+.grades-view > .wd-kicker { font-size: 10px; margin-bottom: 12px; }
+.wd-page .grades-view h2 { font-size: clamp(36px,5vw,64px); font-weight: 500; }
+.grades-intro { font-size: 15px; color: var(--wd-secondary); }
+.grade-layout { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(24px,4vw,52px); margin-top: 30px; align-items: start; }
+.grade-form-heading { display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--wd-line-strong); font-size: 12px; font-weight: 600; }
+.grade-entry { display: grid; grid-template-columns: minmax(0,1fr) 112px; align-items: center; gap: 15px; padding: 11px 0; border-bottom: 1px solid var(--wd-line); }
+.grade-entry label { font-size: 14px; cursor: text; }
+.grade-entry .field-hint { margin-top: 2px; font-size: 10px; }
+.grade-entry input { min-width: 0; width: 100%; text-align: right; font-variant-numeric: tabular-nums; }
+.grade-entry input[aria-invalid='true'] { border-color: var(--app-danger-border); }
+.grade-final-entry { margin-top: 10px; border-top: 1px solid var(--wd-line-strong); }
+.grade-error { padding-top: 10px; color: var(--app-danger-ink); font-size: 12px; }
+.grade-results { display: grid; gap: 12px; }
+.grade-result { padding: 23px; background: var(--app-panel); border: 1px solid var(--wd-line); }
+.grade-result > p { font-size: 11px; margin-bottom: 9px; color: var(--wd-muted); }
+.grade-result > strong { display: block; font: 500 clamp(28px,3.8vw,45px)/1.1 var(--wd-font-display); letter-spacing: -.6px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.grade-result > span { display: block; margin-top: 12px; font-size: 11px; line-height: 1.6; color: var(--wd-secondary); }
+.grade-footnote { margin-top: 24px !important; font-size: 11px; color: var(--wd-muted); }
+.release-dialog { width: min(460px,calc(100% - 32px)); }
+.release-dialog .wd-kicker { margin-bottom: 8px; font-size: 9px; }
+.wd-page .release-dialog h2 { font-size: 34px; font-weight: 500; }
+.release-dialog h2 > span { display: block; margin-top: 6px; font: 400 13px var(--wd-font-body); letter-spacing: 0; color: var(--wd-muted); }
+.release-notes { padding-left: 20px; margin: 24px 0 28px; font-size: 14px; line-height: 1.7; }
+.release-notes li + li { margin-top: 10px; }
+.release-dialog > .wd-button { width: 100%; }
+@media (max-width: 640px) {
+  .wd-nav ol { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 5px; }
+  .grade-layout { grid-template-columns: minmax(0,1fr); gap: 22px; }
+  .grades-view { padding: 28px 20px; }
+  .grade-results { grid-template-columns: minmax(0,1fr); }
+  .grade-entry { grid-template-columns: minmax(0,1fr) 100px; }
+  .grade-result { padding: 20px; }
+}
 .answer-notes { font-size: 12px; background: var(--wd-surface); border-left: 3px solid var(--wd-gold); padding: 16px; margin-top: 16px; overflow-wrap: anywhere; }
 .answer-notes p { max-width: none; white-space: pre-line; }
 .answer-notes a { display: block; padding: 7px 0; min-height: 44px; }

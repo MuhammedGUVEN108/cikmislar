@@ -47,7 +47,8 @@
     $('secim').hidden = name !== 'setup';
     $('cozum').hidden = name !== 'study';
     $('sonuc').hidden = name !== 'results';
-    for (const [id, active] of [['nav-setup',name === 'setup'],['nav-study',name !== 'setup']]) {
+    $('not-hesaplama').hidden = name !== 'grades';
+    for (const [id, active] of [['nav-setup',name === 'setup'],['nav-study',name === 'study' || name === 'results'],['nav-grades',name === 'grades']]) {
       if (active) $(id).setAttribute('aria-current','location');
       else $(id).removeAttribute('aria-current');
     }
@@ -100,6 +101,10 @@
     $('question-subject').textContent = q.subject;
     $('question-source').textContent = `${q.year} · Soru ${q.number}`;
     $('question-stem').textContent = q.stem;
+    const aiSupport = $('ai-support');
+    if (aiSupport.dataset.questionId !== q.id) aiSupport.open = false;
+    aiSupport.dataset.questionId = q.id;
+    $('ai-explanation').textContent = q.aiExplanation || 'Bu soru için AI açıklaması eklenmedi.';
     $('question-id').textContent = q.id;
     $('question-pages').textContent = `Kaynak sayfa: ${q.pages.join(', ')}`;
     $('question-warning').hidden = !reason;
@@ -202,12 +207,14 @@
   $('nav-setup').addEventListener('click',e=>{e.preventDefault();setView('setup');});
   $('nav-study').addEventListener('click',e=>{e.preventDefault();if(!session.length){$('start-session').click();}else{setView('study');renderQuestion(true);}});
   $('nav-bank').addEventListener('click',e=>{e.preventDefault();openBank();});
+  $('nav-grades').addEventListener('click',e=>{e.preventDefault();setView('grades');$('grades-title').focus({preventScroll:true});});
   $('show-bank').addEventListener('click',openBank);
   $('close-bank').addEventListener('click',()=>$('bank-dialog').close());
   $('open-question-info').addEventListener('click',()=>openQuestionInfo());
   $('close-question-info').addEventListener('click',()=>$('question-info-dialog').close());
   $('bank-search').addEventListener('input',renderBank);
   $('source-details').addEventListener('toggle',()=>{if($('source-details').open && session[position])loadSource(session[position]);});
+  $('ai-support').addEventListener('toggle',scheduleFit);
   $('previous-question').addEventListener('click',()=>{if(position>0){position--;renderQuestion(true);}});
   $('next-question').addEventListener('click',()=>{if(position<session.length-1){position++;renderQuestion(true);}else renderResults();});
   $('finish-session').addEventListener('click',renderResults);
@@ -220,5 +227,8 @@
   window.addEventListener('resize',scheduleFit);
   window.visualViewport?.addEventListener('resize',scheduleFit);
   window.addEventListener('pageshow',e=>{if(e.persisted){answers=new Map();session=[];position=0;setView('setup');}});
+  $('release-close').addEventListener('click',()=>$('release-dialog').close());
+  $('release-continue').addEventListener('click',()=>$('release-dialog').close());
   $('loading-message').hidden=true;updateFilters();setView('setup');
+  $('release-dialog').showModal();
 })();

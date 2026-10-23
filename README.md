@@ -2,6 +2,14 @@
 
 **451 soru · 5 yıl · 7 ders.** Kurulum veya derleme gerektirmeyen statik çalışma sitesi.
 
+## v1.1
+
+- Her sorunun altında başlangıçta kapalı bir **AI desteği** kutusu vardır. 419 kısa açıklama, soru verisindeki `aiExplanation` alanında sabit düz metindir; 32 iptal/eksik/belirsiz kayıtta açıklama boştur. Metinler sayfa açılırken üretilmez ve AI servisine istek gönderilmez.
+- Kutular, küçük puntolu “Bu metin AI'dır, doğruluğu şüphelidir kontrol ediniz.” uyarısını taşır. Soru metinleri ve hoca cevap anahtarları korunmuştur.
+- **Not Hesaplama** menüsü yıl içi ortalamayı, kalan not hedefini ve gereken final notunu hesaplar. Kurulların yıl sonuna katkıları sırasıyla %11, %9, %11, %11, %12; Bilimsellik ve İHU'nun her biri %3; final %40'tır. Yıl içi ortalama, bu %60'lık katkının 0,60'a bölünmesiyle bulunur. Finalsiz hedef 80, final dahil hedef 60'tır. Ek bir final alt sınırı veya okul yuvarlama kuralı varsayılmaz.
+- Notlarda boş ile sıfır ayrılır; 0–100 dışındaki girdiler reddedilir. Tamamlanmamış notlardan kesin final sonucu çıkarılmaz. Notlar tarayıcı belleğinde tutulur, kaydedilmez.
+- Açılışta v1.1 güncelleme penceresi gösterilir. Pencere görüntülendi bilgisi çerez veya kalıcı depoya yazılmaz; sayfa yeniden açılırsa yeniden gösterilir.
+
 ## Açılış
 
 `index.html` dosyasını tarayıcıda açın. Yerel dosya olarak ve internetsiz çalışır. JavaScript kapalıysa `soru-arsivi.html` bütün soruları okunabilir biçimde sunar.

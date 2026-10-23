@@ -1,4 +1,11 @@
-# Cevap anahtarı güncellemesi · 22 Ekim 2026
+# v1.1 güncellemesi · 23 Ekim 2026
+
+- 419 sabit AI açıklaması ve 32 boş kayıt; özgün 451 soru, seçenekler ve cevap anahtarları aynı tutuldu. Boş bırakılan kayıtlar hazırlık raporunda listelendi. AI metinleri bağımsız ve eksiksiz bilimsel doğrulama garantisi taşımaz.
+- AI kutuları varsayılan olarak kapalıdır; soru değişince kapanır, aynı soruda cevap verirken açık kalabilir. İstenen uyarı hem etkileşimli çözümde hem okunabilir arşivde bulunur.
+- Not Hesaplama ağırlıkları `Not Hesaplama.xlsx`, `Sayfa1!C2:D11` formüllerinden çıkarıldı. 80/60 eşikleri kullanıcı talimatıdır. Boş, sıfır, geçersiz not, 80'in hemen altı, 60 sınırı ve 100'ü aşan final gereksinimi kontrol edildi.
+- Chrome'da 390 ve 1440 piksel görünümde AI kutusu, v1.1 penceresi ve not hesabı etkileşimleri denendi. Bu, fiziksel telefon testi değildir.
+
+## Önceki sürüm: Cevap anahtarı güncellemesi · 22 Ekim 2026
 
 - Sonradan kullanıcının isteğiyle ana sayfaya ve okunabilir arşive Cloudflare Web Analytics kodu eklenmiştir. İlk sürümde analiz aracı bulunmadığına ilişkin aşağıdaki kayıt tarihseldir; çözüm cevapları ve sonuçları hâlâ gönderilmez.
 
