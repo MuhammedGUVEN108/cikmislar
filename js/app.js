@@ -111,6 +111,7 @@
     $('question-subject').textContent = q.subject;
     $('question-source').textContent = questionLabel(q);
     $('question-stem').textContent = q.stem;
+    $('generated-question-disclaimer').hidden = q.origin !== 'generated';
     const aiSupport = $('ai-support');
     if (aiSupport.dataset.questionId !== q.id) aiSupport.open = false;
     aiSupport.dataset.questionId = q.id;
