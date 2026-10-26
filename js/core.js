@@ -5,10 +5,12 @@
     return String(value ?? '').toLocaleLowerCase('tr-TR').replace(/ı/g, 'i').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
   function gradingKey(q) {
+    if (q.origin === 'generated') return allowedLabels.has(q.authoredKey) ? q.authoredKey : null;
     if (q.status === 'cancelled' || q.sourceKeys.length !== 1) return null;
     return allowedLabels.has(q.sourceKeys[0]) ? q.sourceKeys[0] : null;
   }
   function reviewReason(q) {
+    if (q.origin === 'generated') return gradingKey(q) ? '' : 'Deneme cevap anahtarı eksik';
     if (q.status === 'cancelled') return 'Bu soru kaynakta iptal edilmiş';
     if (!gradingKey(q)) return 'Kaynak cevap anahtarı yok veya okunamıyor';
     if (q.correctionNotes?.length) return 'Kaynakta bu soruya ilişkin düzeltme notu var';

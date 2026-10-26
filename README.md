@@ -2,7 +2,19 @@
 
 **451 soru · 5 yıl · 7 ders.** Kurulum veya derleme gerektirmeyen statik çalışma sitesi.
 
+## v1.2
+
+- Üstteki **Gerçek Dışı Mod** düğmesi, bu yılın ders slaytlarından üretilmiş **90 yeni teorik soruyu** aynı soru motorunda açar. Bunlar çıkmış veya gerçek sınav sorusu değildir; pratik soru içermez ve öğretim üyesi incelemesinden geçmemiştir.
+- Dağılım: 27 Tıbbi Biyoloji, 24 Organik Kimya, 13 Tıp Tarihi ve Etik, 13 Histoloji ve Embriyoloji, 7 Halk Sağlığı, 6 Tıbbi Biyokimya.
+- Her iki modda da ilk şık seçimi kilitlenir; doğru/yanlış hemen görünür. Deneme modunda açıklama da otomatik açılır. Ders filtresi, karışık sıra, soru dizini, tema ve yanlışları yeniden çözme ortak arayüzü kullanır.
+- Çıkmış ve deneme cevapları açık sekmede ayrı tutulur. Mod değiştirirken çalışma korunur; sayfa yenilenince her ikisi de silinir. Deneme anahtarı, özgün kaynak anahtarından ayrı `authoredKey` alanındadır; eski 451 kayıt değiştirilmemiştir.
+- Deneme sorularının kaynak penceresinde slayt dosyası, sayfa / slayt numarası ve ilgili metin yer alır. Eski ikili PPT kaynağında konum, slayt numarası olmadığı belirtilen metin kaydıdır. Yerel dosya yolları veya erişilemeyen masaüstü bağlantıları yayımlanmaz.
+- Doğrudan mod bağlantısı: `?mod=gercek-disi`.
+- **Not hesabı:** finalsiz geçişte ham yıl içi ortalama **79,5**, final dahil ağırlıklı toplamda **59,5** baraj kabul edilir; bu değerler sırasıyla 80 ve 60'a yuvarlanır. Ara notlar ayrıca yuvarlanmaz. Gereken final ve kalan not hedefleri bu barajlara göre hesaplanır. Örnek: yıl içi ortalama 50 ise gereken final 73,75'tir; toplam 59,50 olur.
+
 ## v1.1
+
+Bu bölüm önceki sürümün notlarıdır; güncel geçiş barajları v1.2'de açıklanmıştır.
 
 - Her sorunun altında başlangıçta kapalı bir **AI desteği** kutusu vardır. 419 kısa açıklama, soru verisindeki `aiExplanation` alanında sabit düz metindir; 32 iptal/eksik/belirsiz kayıtta açıklama boştur. Metinler sayfa açılırken üretilmez ve AI servisine istek gönderilmez.
 - Kutular, küçük puntolu “Bu metin AI'dır, doğruluğu şüphelidir kontrol ediniz.” uyarısını taşır. Soru metinleri ve hoca cevap anahtarları korunmuştur.
@@ -49,6 +61,8 @@ Web Dili / sunum-sitesi çekirdeği kullanıldı. Fontlar sistem yedeklerinden g
 - `index.html`: çalışma uygulaması
 - `soru-arsivi.html`: JavaScript gerektirmeyen tam arşiv
 - `js/questions.js`: kaynağı değiştirmeden oluşturulan çalışma verisi
+- `js/generated-questions.js`: Gerçek Dışı Mod'un 90 sorusu ve slayt referansları
+- `js/generated-manifest.json`: denemenin kapsamı ve ders dağılımı
 - `js/core.js`, `js/app.js`: soru mantığı ve arayüz
 - `css/`: korunmuş tasarım çekirdeği ve uygulama stilleri
 - `assets/figures/`: soruya ait şekiller

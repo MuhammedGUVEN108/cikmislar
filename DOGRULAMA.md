@@ -1,4 +1,12 @@
-# v1.1 güncellemesi · 23 Ekim 2026
+# v1.2 güncellemesi · 26 Ekim 2026
+
+- Gerçek Dışı Mod: 90 teorik soru, 6 ders, 0 pratik. Kimlikler özgün 451 kayıtla çakışmıyor. Ders dağılımı 27/24/13/13/7/6 olarak doğrulandı.
+- Özgün 451 soruda 2255 şık değerlendirmesi, önceki sürümün motoruyla aynı sonucu verdi. Yeni 90 sorunun 450 şık değerlendirmesi de deneme anahtarıyla eşleşti.
+- Bellek içi DOM kontrolü: mod ve ders geçişleri, cevapların modlar arasında ayrı korunması, ilk cevap kilidi, anlık doğru/yanlış ve açıklama, kaynak metinleri, soru dizini, yanlışları yeniden çözme ve tema geçişi geçti.
+- Not hesabında 79,49/79,50 ve 59,49/59,50 sınırları, sıfır/boş ayrımı, geçersiz not ve gereken final hesabı kontrol edildi. 201 farklı yıl içi ortalama için hesaplanan en düşük final notu eşiği sağlıyor; 0,01 puan altı eşiği sağlamıyor.
+- JavaScript sözdizimi ve `git diff --check` kontrolleri geçti. Tarayıcı görsel doğrulaması ve fiziksel telefon testi bu doğrulamaların kapsamında değildir.
+
+## v1.1 güncellemesi · 23 Ekim 2026
 
 - 419 sabit AI açıklaması ve 32 boş kayıt; özgün 451 soru, seçenekler ve cevap anahtarları aynı tutuldu. Boş bırakılan kayıtlar hazırlık raporunda listelendi. AI metinleri bağımsız ve eksiksiz bilimsel doğrulama garantisi taşımaz.
 - AI kutuları varsayılan olarak kapalıdır; soru değişince kapanır, aynı soruda cevap verirken açık kalabilir. İstenen uyarı hem etkileşimli çözümde hem okunabilir arşivde bulunur.

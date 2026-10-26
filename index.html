@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/app.css">
   <script defer src="js/questions.js"></script>
+  <script defer src="js/generated-questions.js"></script>
   <script defer src="js/core.js"></script>
   <script defer src="js/grades.js"></script>
   <script defer src="js/app.js"></script>
@@ -31,23 +32,24 @@
       <div class="rail-bottom"><p>Yalnızca sen<br>ve sıradaki soru.</p><span class="privacy-dot"></span><span>Çözüm geçmişi tutulmaz.</span></div>
     </aside>
     <main class="wd-main" id="main">
-      <header class="topbar"><span class="topbar-label">ÇIKMIŞ SORU ARŞİVİ <span>/</span> KURUL 01</span><button id="theme-toggle" type="button" class="icon-button" aria-label="Koyu temaya geç"><span aria-hidden="true">◐</span><span id="theme-label">Koyu tema</span></button></header>
+      <header class="topbar"><span class="topbar-label">ÇIKMIŞ SORU ARŞİVİ <span>/</span> KURUL 01 <small class="version-badge">v1.2</small></span><div class="topbar-actions"><button id="generated-mode-toggle" class="generated-mode-toggle" type="button" aria-pressed="false" aria-controls="secim"><span>Gerçek Dışı Mod</span><small id="generated-mode-status">90 soru</small></button><button id="theme-toggle" type="button" class="icon-button" aria-label="Koyu temaya geç"><span aria-hidden="true">◐</span><span id="theme-label">Koyu tema</span></button></div></header>
       <noscript><div class="wd-panel">Etkileşimli çözüm için JavaScript'i etkinleştirin. <a href="soru-arsivi.html">451 soruluk okunabilir arşivi açın.</a></div></noscript>
       <div id="loading-message" class="wd-panel" role="status">Sorular hazırlanıyor…</div>
       <section id="secim" class="setup-view" aria-labelledby="hero-title" hidden>
+        <aside id="generated-intro" class="generated-intro" hidden><div><p class="wd-kicker">GERÇEK DIŞI MOD / DENEME 01</p><p><strong>Slaytlardan 90 yeni teorik soru.</strong> 6 dersin sınav ağırlığına göre hazırlandı; pratik soru yok. Bunlar çıkmış soru değildir.</p><small>Yapay zekâ yardımıyla oluşturuldu; öğretim üyesi incelemesinden geçmedi. Şık seçince doğru/yanlış ve açıklama hemen açılır.</small></div><button id="generated-back" type="button" class="text-button">Çıkmışlara dön ↗</button></aside>
         <div class="hero-grid">
-          <div class="hero-copy"><p class="wd-kicker"><span class="tiny-rule"></span>GEÇMİŞ SORULAR, YENİ BİR BAKIŞ.</p><h1 id="hero-title">Bir soru<br><em>daha.</em></h1><p class="hero-description">Yılını seç. Dersini belirle.<br>Bildiklerini bir sonraki soruda dene.</p><div class="hero-stats"><div><strong>451</strong><span>çıkmış soru</span></div><div><strong>05</strong><span>akademik yıl</span></div><div><strong>07</strong><span>ders</span></div></div></div>
+          <div class="hero-copy"><p class="wd-kicker"><span class="tiny-rule"></span><span id="hero-kicker">GEÇMİŞ SORULAR, YENİ BİR BAKIŞ.</span></p><h1 id="hero-title" tabindex="-1">Bir soru<br><em>daha.</em></h1><p class="hero-description" id="hero-description">Yılını seç. Dersini belirle.<br>Bildiklerini bir sonraki soruda dene.</p><div class="hero-stats"><div><strong id="hero-question-count">451</strong><span id="hero-question-label">çıkmış soru</span></div><div><strong id="hero-set-count">05</strong><span id="hero-set-label">akademik yıl</span></div><div><strong id="hero-subject-count">07</strong><span>ders</span></div></div></div>
           <div class="hero-aside" aria-hidden="true"><span class="stamp">DÖNEM 1<br><b>01</b><br>KURUL ARŞİVİ</span><div class="paper-preview"><div class="preview-top"><span>ÇALIŞMA NOTU / 001</span><span>↗</span></div><p>Öğrenmek,<br>bir soruyla<br><em>başlar.</em></p><div class="preview-answer"><span>A</span> Biraz merak.</div><div class="preview-answer"><span>B</span> Biraz tekrar.</div><div class="preview-answer selected"><span>C</span> Bir soru daha. <b>✓</b></div><div class="preview-bottom">SEÇ. DENE. ÖĞREN. TEKRARLA.</div></div><span class="aside-caption">HER ŞIK, BİR HATIRLAMA FIRSATI.</span></div>
         </div>
         <div class="section-heading"><span class="wd-number">01</span><h2>Bugün ne çözelim?</h2><button id="reset-filters" class="text-button" type="button">Seçimleri temizle ↺</button></div>
         <div class="selection-layout">
           <div class="filter-panel">
-            <div class="field-heading"><label for="year-filter"><span class="wd-mono">01 /</span> Akademik yıl</label><span class="field-hint">Tek yıl veya bütün yıllar</span></div>
+            <div class="field-heading"><label for="year-filter"><span class="wd-mono">01 /</span> <span id="year-field-label">Akademik yıl</span></label><span class="field-hint" id="year-field-hint">Tek yıl veya bütün yıllar</span></div>
             <select id="year-filter" class="wd-input"><option value="">Bütün yıllar</option></select>
-            <div class="field-heading course-heading"><span id="subject-label"><span class="wd-mono">02 /</span> Ders</span><span class="field-hint">Yılla birlikte filtrelenir</span></div>
+            <div class="field-heading course-heading"><span id="subject-label"><span class="wd-mono">02 /</span> Ders</span><span class="field-hint" id="subject-field-hint">Yılla birlikte filtrelenir</span></div>
             <div id="subject-filters" class="subject-list" role="group" aria-labelledby="subject-label"></div>
           </div>
-          <aside class="session-panel"><div class="wd-kicker">SENİN ÇALIŞMA SETİN</div><div class="set-total"><strong id="filtered-count">451</strong><span>soru</span></div><p id="selection-description">Bütün yıllar · Bütün dersler</p><div class="session-divider"></div><label for="order-filter" class="compact-label">Soru sırası</label><select id="order-filter" class="wd-input"><option value="ordered">Kaynak sırası</option><option value="random">Karışık</option></select><label class="check-row"><input id="review-filter" type="checkbox" checked><span>İptal ve anahtarsız soruları da göster<span class="field-hint">Bu sorular doğru/yanlış sayısına katılmaz</span></span></label><p id="set-breakdown" class="set-breakdown"></p><button id="start-session" type="button" class="wd-button start-button">Çözmeye başla <span aria-hidden="true">↗</span></button><p class="session-footnote">Seçimler yalnızca bu sayfa açıkken kalır.<br>Yenilendiğinde çalışma sıfırlanır.</p></aside>
+          <aside class="session-panel"><div class="wd-kicker">SENİN ÇALIŞMA SETİN</div><div class="set-total"><strong id="filtered-count">451</strong><span>soru</span></div><p id="selection-description">Bütün yıllar · Bütün dersler</p><div class="session-divider"></div><label for="order-filter" class="compact-label">Soru sırası</label><select id="order-filter" class="wd-input"><option value="ordered">Kaynak sırası</option><option value="random">Karışık</option></select><label class="check-row" id="review-filter-row"><input id="review-filter" type="checkbox" checked><span>İptal ve anahtarsız soruları da göster<span class="field-hint">Bu sorular doğru/yanlış sayısına katılmaz</span></span></label><p id="set-breakdown" class="set-breakdown"></p><button id="start-session" type="button" class="wd-button start-button">Çözmeye başla <span aria-hidden="true">↗</span></button><p class="session-footnote">Seçimler yalnızca bu sayfa açıkken kalır.<br>Yenilendiğinde çalışma sıfırlanır.</p></aside>
         </div>
         <figure class="ataturk-tribute">
           <div class="ataturk-photograph"><img class="ataturk-portrait" src="assets/ataturk.jpg" width="564" height="1004" alt="Gazi Mustafa Kemal Atatürk" loading="lazy" decoding="async"></div>
@@ -62,7 +64,7 @@
       </section>
       <section id="cozum" class="study-view" aria-label="Soru çözümü" hidden>
         <div class="study-toolbar">
-          <button id="back-to-setup" class="text-button" type="button">← Soru seçimi</button>
+          <button id="back-to-setup" class="text-button" type="button">← <span id="study-mode-label">Soru seçimi</span></button>
           <div id="session-context" class="wd-muted"></div>
           <div class="study-actions"><button id="finish-session" class="text-button" type="button">Sonuçlar</button><button id="show-bank" class="text-button" type="button">Dizin ▦</button><button id="study-theme-toggle" class="icon-button" type="button" aria-label="Koyu temaya geç">◐</button></div>
         </div>
@@ -80,11 +82,11 @@
         </div>
         <div class="question-navigation"><button id="previous-question" class="wd-button wd-button--ghost" type="button">← Önceki</button><button id="open-question-info" class="text-button" type="button">Kaynak / not</button><button id="next-question" class="wd-button" type="button">Sonraki soru →</button></div>
       </section>
-      <section id="sonuc" class="results-view" aria-labelledby="results-title" hidden><span class="wd-kicker">BİR TUR DAHA TAMAMLANDI.</span><h2 id="results-title" tabindex="-1">Emeğine sağlık.</h2><p id="results-description" class="wd-muted"></p><div id="results-stats" class="results-stats"></div><p class="wd-help">Doğru/yanlış sayıları kaynak anahtarına göredir. Bu sonuç sayfa yenilenince silinir.</p><div class="results-actions"><button id="continue-session" type="button" class="wd-button">Çözmeye devam et →</button><button id="retry-wrong" type="button" class="wd-button wd-button--ghost">Yanlışları yeniden çöz</button><button id="retry-all" type="button" class="wd-button wd-button--ghost">Bu seti yeniden çöz</button><button id="new-selection" type="button" class="text-button">Yeni seçim yap ↗</button></div></section>
+      <section id="sonuc" class="results-view" aria-labelledby="results-title" hidden><span class="wd-kicker">BİR TUR DAHA TAMAMLANDI.</span><h2 id="results-title" tabindex="-1">Emeğine sağlık.</h2><p id="results-description" class="wd-muted"></p><div id="results-stats" class="results-stats"></div><p class="wd-help" id="results-note">Doğru/yanlış sayıları kaynak anahtarına göredir. Bu sonuç sayfa yenilenince silinir.</p><div class="results-actions"><button id="continue-session" type="button" class="wd-button">Çözmeye devam et →</button><button id="retry-wrong" type="button" class="wd-button wd-button--ghost">Yanlışları yeniden çöz</button><button id="retry-all" type="button" class="wd-button wd-button--ghost">Bu seti yeniden çöz</button><button id="new-selection" type="button" class="text-button">Yeni seçim yap ↗</button></div></section>
       <section id="not-hesaplama" class="grades-view" aria-labelledby="grades-title" hidden>
         <p class="wd-kicker">NOTLARIN, HEDEFİN.</p>
         <h2 id="grades-title" tabindex="-1">Not Hesaplama</h2>
-        <p class="grades-intro">Finalsiz geçiş için <strong>80</strong>, finalle geçiş için <strong>60</strong>.</p>
+        <p class="grades-intro">Finalsiz geçişte <strong>79,5 → 80</strong>, finalle geçişte <strong>59,5 → 60</strong> barajı uygulanır.</p>
         <div class="grade-layout">
           <form id="grade-form" class="grade-form" novalidate autocomplete="off">
             <div class="grade-form-heading"><span>Yıl içi notların</span><span>0–100</span></div>
@@ -95,18 +97,18 @@
           </form>
           <div id="grade-results" class="grade-results" aria-live="polite">
             <div class="grade-result"><p id="grade-average-label">Yıl içi ortalaman</p><strong id="grade-average">—</strong><span id="grade-completeness">Notlarını girerek başlayabilirsin.</span></div>
-            <div class="grade-result"><p>Finalsiz geçiş · hedef 80</p><strong id="grade-exemption">—</strong><span id="grade-exemption-note">Kalan notların için gereken ortalamayı burada görebilirsin.</span></div>
-            <div class="grade-result"><p>Gerekli final notu · hedef 60</p><strong id="grade-final-needed">—</strong><span id="grade-final-note">Yıl içindeki yedi not tamamlanınca hesaplanır.</span></div>
+            <div class="grade-result"><p>Finalsiz geçiş · baraj 79,5</p><strong id="grade-exemption">—</strong><span id="grade-exemption-note">Kalan notların için gereken ortalamayı burada görebilirsin.</span></div>
+            <div class="grade-result"><p>Gerekli final notu · baraj 59,5</p><strong id="grade-final-needed">—</strong><span id="grade-final-note">Yıl içindeki yedi not tamamlanınca hesaplanır.</span></div>
             <div id="grade-total-card" class="grade-result" hidden><p>Final dahil yıl sonu notun</p><strong id="grade-total">—</strong><span id="grade-total-note"></span></div>
           </div>
         </div>
-        <p class="grade-footnote">Yıl içi ağırlıklar toplam %60, final %40. Eksik notlar sıfır sayılmaz. Notların kaydedilmez.</p>
+        <p class="grade-footnote">Yıl içi ağırlıklar toplam %60, final %40. Barajlar ham ağırlıklı sonuçta 79,5 ve 59,5’tir; ara notlar ayrıca yuvarlanmaz. Eksik notlar sıfır sayılmaz. Notların kaydedilmez.</p>
       </section>
     </main>
   </div>
-  <dialog id="release-dialog" class="release-dialog" aria-labelledby="release-title"><div class="dialog-header"><div><p class="wd-kicker">YENİ SÜRÜM</p><h2 id="release-title">v1.1 <span>Yenilikler</span></h2></div><button id="release-close" class="icon-button" type="button" aria-label="Güncelleme notlarını kapat">✕</button></div><ul class="release-notes"><li>Soruların altında kısa <strong>AI desteği</strong>.</li><li>Yeni <strong>Not Hesaplama</strong> alanı ve final hedefi.</li><li>Öncüllü sorularda daha okunaklı satır düzeni.</li></ul><button id="release-continue" class="wd-button" type="button">Devam et →</button></dialog>
+  <dialog id="release-dialog" class="release-dialog" aria-labelledby="release-title"><div class="dialog-header"><div><p class="wd-kicker">YENİ SÜRÜM</p><h2 id="release-title">v1.2 <span>Gerçek Dışı Mod</span></h2></div><button id="release-close" class="icon-button" type="button" aria-label="Güncelleme notlarını kapat">✕</button></div><ul class="release-notes"><li>Üstteki <strong>Gerçek Dışı Mod</strong> düğmesiyle 90 yeni teorik soruya geç.</li><li>Bu yılın slaytlarından, 6 dersin ağırlığına göre üretildi. <strong>Çıkmış değildir; pratik soru içermez.</strong></li><li>Aynı çözüm düzeni: anında doğru/yanlış, açıklama ve slayt kaynağı.</li><li>Not hesabında <strong>59,5 → 60</strong> ve <strong>79,5 → 80</strong> barajları uygulanır.</li></ul><button id="release-continue" class="wd-button" type="button">Devam et →</button></dialog>
   <dialog id="bank-dialog" aria-labelledby="bank-title"><div class="dialog-header"><div><span class="wd-kicker">ÇALIŞMA SETİ</span><h2 id="bank-title">Soru dizini</h2></div><button id="close-bank" class="icon-button" type="button" aria-label="Soru dizinini kapat">✕</button></div><p class="wd-help">Bir numaraya dokunarak soruya geçebilirsin.</p><div class="bank-legend"><span>✓ Doğru</span><span>× Yanlış</span><span>! Puan dışı</span><span>· Cevaplanmadı</span></div><label for="bank-search" class="compact-label">Bu sette soru ara</label><input id="bank-search" class="wd-input" type="search" placeholder="Soru metni, ders veya kaynak numarası"><div id="bank-grid" class="bank-grid"></div><p id="bank-empty" class="wd-help" hidden>Eşleşen soru bulunamadı.</p></dialog>
-  <dialog id="question-info-dialog" aria-labelledby="question-info-title"><div class="dialog-header"><div><span class="wd-kicker">KAYNAK VE NOTLAR</span><h2 id="question-info-title">Soru ayrıntıları</h2></div><button id="close-question-info" class="icon-button" type="button" aria-label="Soru ayrıntılarını kapat">✕</button></div><div id="answer-notes" class="answer-notes" hidden></div><details id="source-details" class="source-details"><summary>Kaynak sayfasını aç <span class="field-hint">Cevap işaretleri içerebilir</span></summary><div id="source-images"></div></details><div class="question-footer"><span id="question-id" class="wd-mono"></span><span id="question-pages"></span></div></dialog>
+  <dialog id="question-info-dialog" aria-labelledby="question-info-title"><div class="dialog-header"><div><span class="wd-kicker">KAYNAK VE NOTLAR</span><h2 id="question-info-title">Soru ayrıntıları</h2></div><button id="close-question-info" class="icon-button" type="button" aria-label="Soru ayrıntılarını kapat">✕</button></div><div id="answer-notes" class="answer-notes" hidden></div><details id="source-details" class="source-details"><summary><span id="source-summary-label">Kaynak sayfasını aç</span> <span class="field-hint" id="source-summary-hint">Cevap işaretleri içerebilir</span></summary><div id="source-images"></div></details><div class="question-footer"><span id="question-id" class="wd-mono"></span><span id="question-pages"></span></div></dialog>
   <!-- Cloudflare Web Analytics -->
   <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5ce35599f2cb4ebbadda19005f2c7241"}'></script>
   <!-- End Cloudflare Web Analytics -->

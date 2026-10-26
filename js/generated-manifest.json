@@ -1,0 +1,15 @@
+{
+  "id": "d1k1-deneme01",
+  "title": "Gerçek Dışı Mod · Deneme 01",
+  "questionCount": 90,
+  "theoryOnly": true,
+  "blueprint": {
+    "Tıbbi Biyoloji": 27,
+    "Organik Kimya": 24,
+    "Tıp Tarihi ve Etik": 13,
+    "Histoloji ve Embriyoloji": 13,
+    "Halk Sağlığı": 7,
+    "Tıbbi Biyokimya": 6
+  },
+  "note": "Slaytlardan yapay zekâ yardımıyla üretilmiş yeni sorular; geçmiş sınavda sorulmuş değildir. Öğretim üyesi incelemesinden geçmemiştir."
+}
