@@ -10,6 +10,8 @@
 - Çıkmış ve deneme cevapları açık sekmede ayrı tutulur. Mod değiştirirken çalışma korunur; sayfa yenilenince her ikisi de silinir. Deneme anahtarı, özgün kaynak anahtarından ayrı `authoredKey` alanındadır; eski 451 kayıt değiştirilmemiştir.
 - Deneme sorularının kaynak penceresinde slayt dosyası, sayfa / slayt numarası ve ilgili metin yer alır. Eski ikili PPT kaynağında konum, slayt numarası olmadığı belirtilen metin kaydıdır. Yerel dosya yolları veya erişilemeyen masaüstü bağlantıları yayımlanmaz.
 - Doğrudan mod bağlantısı: `?mod=gercek-disi`.
+- Gerçek Dışı Mod yalnızca **koyu mor temada** çalışır; tema düğmesi bu modda görünmez. Çıkmışlara dönüldüğünde önceki açık/koyu tercih geri gelir.
+- Bu moddaki **90 sorunun her birinde** kısa AI açıklaması üstte korunur. Altındaki kapalı **Şıkları tek tek incele** ve **Terimleri açıkla** bölümleri istenirse açılır: toplam **450 şık açıklaması**, **349 farklı terim tanımı** vardır. Bunlar sabit metindir; tarayıcıdan AI servisine istek gönderilmez.
 - **Not hesabı:** finalsiz geçişte ham yıl içi ortalama **79,5**, final dahil ağırlıklı toplamda **59,5** baraj kabul edilir; bu değerler sırasıyla 80 ve 60'a yuvarlanır. Ara notlar ayrıca yuvarlanmaz. Gereken final ve kalan not hedefleri bu barajlara göre hesaplanır. Örnek: yıl içi ortalama 50 ise gereken final 73,75'tir; toplam 59,50 olur.
 
 ## v1.1
@@ -62,6 +64,7 @@ Web Dili / sunum-sitesi çekirdeği kullanıldı. Fontlar sistem yedeklerinden g
 - `soru-arsivi.html`: JavaScript gerektirmeyen tam arşiv
 - `js/questions.js`: kaynağı değiştirmeden oluşturulan çalışma verisi
 - `js/generated-questions.js`: Gerçek Dışı Mod'un 90 sorusu ve slayt referansları
+- `js/generated-explanations.js`: bu 90 sorunun A–E gerekçeleri ve ortak terim sözlüğü
 - `js/generated-manifest.json`: denemenin kapsamı ve ders dağılımı
 - `js/core.js`, `js/app.js`: soru mantığı ve arayüz
 - `css/`: korunmuş tasarım çekirdeği ve uygulama stilleri

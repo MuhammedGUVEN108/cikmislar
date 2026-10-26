@@ -1,5 +1,9 @@
 # v1.2 güncellemesi · 26 Ekim 2026
 
+- Gerçek Dışı Mod'daki 90 soruya toplam 450 ayrı şık gerekçesi ve 349 terimden oluşan sözlük eklendi. Her gerekçenin seçenek harfi, metni ve doğru/yanlış durumu mevcut anahtarla eşleştirildi; bütün terim başvuruları tanımlı. Üstteki kısa açıklamalar ve cevap anahtarları değişmedi.
+- Ayrıntı bölümlerinin başlangıçta kapalı olması, kısa metnin üstte kalması ve bu bölümlerin yalnızca yeni sorularda görünmesi bellek içi arayüz kontrolüne dahil edildi.
+- Gerçek Dışı Mod koyu mor temaya sabitlendi. Tema kontrolleri bu modda gizlenir; çıkmışlara dönünce önceki açık/koyu tercih geri gelir. Her iki yöndeki geçişler kontrol edildi.
+
 - Gerçek Dışı Mod: 90 teorik soru, 6 ders, 0 pratik. Kimlikler özgün 451 kayıtla çakışmıyor. Ders dağılımı 27/24/13/13/7/6 olarak doğrulandı.
 - Özgün 451 soruda 2255 şık değerlendirmesi, önceki sürümün motoruyla aynı sonucu verdi. Yeni 90 sorunun 450 şık değerlendirmesi de deneme anahtarıyla eşleşti.
 - Bellek içi DOM kontrolü: mod ve ders geçişleri, cevapların modlar arasında ayrı korunması, ilk cevap kilidi, anlık doğru/yanlış ve açıklama, kaynak metinleri, soru dizini, yanlışları yeniden çözme ve tema geçişi geçti.

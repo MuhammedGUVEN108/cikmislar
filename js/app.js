@@ -11,6 +11,7 @@
   }
   let subjects = [...new Set(all.map(q => q.subject))].sort((a,b) => a.localeCompare(b,'tr'));
   let activeMode = 'archive';
+  let archiveTheme = document.documentElement.dataset.theme || 'light';
   const modeStates = new Map();
   let selectedSubject = '';
   let session = [];
@@ -98,6 +99,28 @@
     $('answered-count').textContent = `${stats.answered} / ${stats.total} cevaplandı`;
     $('session-progress').style.width = `${stats.total ? stats.answered / stats.total * 100 : 0}%`;
   }
+  function renderLearningDetails(q) {
+    const container=$('ai-detail-content');
+    const detail=q.origin==='generated' ? window.GENERATED_EXPLANATIONS?.[q.id] : null;
+    container.hidden=!detail;
+    if(container.dataset.questionId===q.id)return;
+    container.dataset.questionId=q.id;container.replaceChildren();
+    if(!detail)return;
+    const options=element('details','ai-reading-section');
+    options.append(element('summary','','Şıkları tek tek incele · A–E'));
+    const list=element('div','ai-option-reasons');
+    for(const item of detail.options) {
+      const block=element('section','ai-option-reason');
+      block.append(element('h3','',`${item.label} · ${item.isCorrect?'Neden doğru?':'Neden olmaz?'}`),element('p','ai-option-quote',item.optionText),element('p','',item.reason));
+      list.append(block);
+    }
+    options.append(list);options.addEventListener('toggle',scheduleFit);container.append(options);
+    const terms=element('details','ai-reading-section');
+    terms.append(element('summary','',`Terimleri açıkla · ${detail.terms.length} kavram`));
+    const definitions=element('dl','ai-glossary');
+    for(const term of detail.terms) definitions.append(element('dt','',term),element('dd','',window.GENERATED_GLOSSARY[term]));
+    terms.append(definitions);terms.addEventListener('toggle',scheduleFit);container.append(terms);
+  }
   function renderQuestion(focus = false) {
     const q = session[position];
     if (!q) return;
@@ -117,6 +140,7 @@
     aiSupport.dataset.questionId = q.id;
     if (q.origin === 'generated' && answer) aiSupport.open = true;
     $('ai-explanation').textContent = q.aiExplanation || 'Bu soru için AI açıklaması eklenmedi.';
+    renderLearningDetails(q);
     $('question-id').textContent = q.id;
     $('question-pages').textContent = q.origin === 'generated' ? `${q.topic} · Teorik deneme sorusu` : `Kaynak sayfa: ${q.pages.join(', ')}`;
     $('source-summary-label').textContent = q.origin === 'generated' ? 'Slayt kaynağını ve metnini aç' : 'Kaynak sayfasını aç';
@@ -236,6 +260,13 @@
   }
   function applyModeAppearance() {
     const generatedMode=isGenerated();document.documentElement.dataset.questionMode=activeMode;
+    document.documentElement.dataset.theme=generatedMode?'dark':archiveTheme;
+    const dark=document.documentElement.dataset.theme==='dark';
+    $('theme-label').textContent=dark?'Açık tema':'Koyu tema';
+    for (const id of ['theme-toggle','study-theme-toggle']) {
+      $(id).hidden=generatedMode;
+      $(id).setAttribute('aria-label',dark?'Açık temaya geç':'Koyu temaya geç');
+    }
     updateThemeColor();
     $('generated-mode-toggle').setAttribute('aria-pressed',String(generatedMode));
     $('generated-mode-toggle').disabled=generated.length===0;
@@ -295,7 +326,7 @@
   $('continue-session').addEventListener('click',()=>{setView('study');renderQuestion(true);});
   $('retry-all').addEventListener('click',()=>start(session,sessionLabel));
   $('retry-wrong').addEventListener('click',()=>start(session.filter(q=>answers.get(q.id)?.result==='wrong'),`${sessionLabel} · Yanlışlar`));
-  $('theme-toggle').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';$('theme-label').textContent=dark?'Açık tema':'Koyu tema';for(const id of ['theme-toggle','study-theme-toggle'])$(id).setAttribute('aria-label',dark?'Açık temaya geç':'Koyu temaya geç');updateThemeColor();});
+  $('theme-toggle').addEventListener('click',()=>{if(isGenerated())return;const dark=document.documentElement.dataset.theme!=='dark';archiveTheme=dark?'dark':'light';document.documentElement.dataset.theme=archiveTheme;$('theme-label').textContent=dark?'Açık tema':'Koyu tema';for(const id of ['theme-toggle','study-theme-toggle'])$(id).setAttribute('aria-label',dark?'Açık temaya geç':'Koyu temaya geç');updateThemeColor();});
   $('study-theme-toggle').addEventListener('click',()=>$('theme-toggle').click());
   document.addEventListener('keydown',e=>{if(view!=='study'||$('bank-dialog').open||$('question-info-dialog').open||e.altKey||e.ctrlKey||e.metaKey||['INPUT','SELECT','TEXTAREA','BUTTON'].includes(document.activeElement?.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();$('next-question').click();}else if(e.key==='ArrowLeft'){e.preventDefault();$('previous-question').click();}});
   window.addEventListener('resize',scheduleFit);
