@@ -20,6 +20,10 @@
   let sessionLabel = '';
   const filters = () => ({ year: $('year-filter').value, subject: selectedSubject, includeReview: $('review-filter').checked });
   const isGenerated = () => activeMode === 'generated';
+  function updateThemeColor() {
+    const dark=document.documentElement.dataset.theme==='dark';
+    document.querySelector('meta[name="theme-color"]').content=isGenerated() ? (dark?'#26222e':'#f4f0fa') : (dark?'#262624':'#f3efe4');
+  }
   const questionLabel = q => q.origin === 'generated' ? `Deneme 01 · Soru ${q.number} · Çıkmış değildir` : `${q.year} · Soru ${q.number}`;
   const keyLabel = q => q.origin === 'generated' ? 'Deneme anahtarı' : 'Kaynak anahtarı';
   function element(tag, className, text) {
@@ -231,6 +235,7 @@
   }
   function applyModeAppearance() {
     const generatedMode=isGenerated();document.documentElement.dataset.questionMode=activeMode;
+    updateThemeColor();
     $('generated-mode-toggle').setAttribute('aria-pressed',String(generatedMode));
     $('generated-mode-toggle').disabled=generated.length===0;
     $('generated-mode-status').textContent=generatedMode?'Açık':'90 soru';
@@ -289,7 +294,7 @@
   $('continue-session').addEventListener('click',()=>{setView('study');renderQuestion(true);});
   $('retry-all').addEventListener('click',()=>start(session,sessionLabel));
   $('retry-wrong').addEventListener('click',()=>start(session.filter(q=>answers.get(q.id)?.result==='wrong'),`${sessionLabel} · Yanlışlar`));
-  $('theme-toggle').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';$('theme-label').textContent=dark?'Açık tema':'Koyu tema';for(const id of ['theme-toggle','study-theme-toggle'])$(id).setAttribute('aria-label',dark?'Açık temaya geç':'Koyu temaya geç');document.querySelector('meta[name="theme-color"]').content=dark?'#262624':'#f3efe4';});
+  $('theme-toggle').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';$('theme-label').textContent=dark?'Açık tema':'Koyu tema';for(const id of ['theme-toggle','study-theme-toggle'])$(id).setAttribute('aria-label',dark?'Açık temaya geç':'Koyu temaya geç');updateThemeColor();});
   $('study-theme-toggle').addEventListener('click',()=>$('theme-toggle').click());
   document.addEventListener('keydown',e=>{if(view!=='study'||$('bank-dialog').open||$('question-info-dialog').open||e.altKey||e.ctrlKey||e.metaKey||['INPUT','SELECT','TEXTAREA','BUTTON'].includes(document.activeElement?.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();$('next-question').click();}else if(e.key==='ArrowLeft'){e.preventDefault();$('previous-question').click();}});
   window.addEventListener('resize',scheduleFit);

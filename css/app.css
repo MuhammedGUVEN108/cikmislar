@@ -385,6 +385,39 @@ html[data-view='study'] .question-reader[data-density='compact'] .option-image {
 }
 
 /* v1.2 · Gerçek Dışı Mod, existing study engine and design tokens. */
+html[data-question-mode='generated'] {
+  --wd-paper: #f4f0fa;
+  --wd-paper-2: #e8e0f1;
+  --wd-lemon: #d1adff;
+  --wd-gold: #a975da;
+  --wd-bg: var(--wd-paper);
+  --wd-surface: var(--wd-paper-2);
+  --wd-card: var(--wd-paper-2);
+  --wd-rail-bg: rgba(244,240,250,.96);
+  --wd-deep: #261d32;
+  --wd-on-deep: #f0e8fa;
+  --wd-on-deep-muted: #c6b5da;
+  --wd-hover-bg: #e0d2f0;
+  --wd-active: var(--wd-lemon);
+  --wd-active-text: var(--wd-ink);
+  --wd-focus: #694194;
+  --app-quiet: #ded2ec;
+  --app-panel: #faf7ff;
+}
+html[data-question-mode='generated'][data-theme='dark'] {
+  --wd-bg: #26222e;
+  --wd-surface: #302a3b;
+  --wd-card: #302a3b;
+  --wd-gold: #b98bed;
+  --wd-rail-bg: rgba(32,27,39,.96);
+  --wd-hover-bg: #40354e;
+  --wd-focus: var(--wd-lemon);
+  --app-quiet: #45384e;
+  --app-panel: #302936;
+}
+html[data-question-mode='generated'] .subject-choice[aria-pressed='true'] { background:var(--wd-lemon); color:var(--wd-ink); }
+html[data-question-mode='generated'] .session-panel .wd-input { background:#34283f; color:#f0e8fa; border-color:#716082; }
+html[data-question-mode='generated'] .session-divider { background:#675477; }
 .topbar-actions { display:flex; align-items:center; gap:10px; min-width:0; }
 .version-badge { display:inline-block; font:9px var(--wd-font-mono); color:var(--wd-muted); margin-left:7px; }
 .generated-mode-toggle { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:44px; padding:10px 13px; border:1px solid var(--wd-line-strong); background:var(--app-panel); color:var(--wd-text); cursor:pointer; font-size:11px; font-weight:600; border-radius:2px; }
