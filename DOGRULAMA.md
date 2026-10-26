@@ -1,5 +1,16 @@
 # v1.2 güncellemesi · 26 Ekim 2026
 
+## Deneme 02
+
+- İkinci deneme 90 teorik sorudan oluşur; dağılım 27/24/13/13/7/6. Her soruda beş seçenek, tek anahtar, kısa açıklama, beş ayrı şık gerekçesi ve tanımlı terim başvuruları vardır. A–E anahtarları 18'er kez kullanılır.
+- Deneme 01'le birebir aynı soru kökü yoktur. Benzer öğrenme hedefleri için yeni bileşik, mekanizma veya hesap örnekleri kullanılabilir; bütün konuların farklı olduğu iddia edilmez.
+- İlk denemenin soru ve açıklama dosyaları değişmedi; SHA-256 karşılaştırması korunduklarını gösterdi. Özgün 451 çıkmış soru da değişmedi.
+- 180 yeni soru kimliği ve özgün 451 kimlik toplam 631 benzersiz kayıt oluşturur. 900 şık açıklamasının harf, seçenek metni ve doğru/yanlış bayrağı anahtarlarla eşleşir; toplam 458 tanımın bütün başvuruları geçerlidir.
+- Deneme 01/02 ile ders kesişimleri, 90/180 toplamlar, yeni denemenin varsayılan seçilmesi, soru dizininde deneme adları, anlık geri bildirim, kaynak metinleri ve bağımsız mod belleği bellek içi DOM denetiminden geçti.
+- Koyu mor tema zorunluluğu ve 59,5/79,5 geçiş hesabı kontrolleri geçti. 40 slayt dosyası referansı dosya sisteminde mevcuttur.
+
+## Deneme 01 için önceki doğrulama
+
 - Gerçek Dışı Mod'daki 90 soruya toplam 450 ayrı şık gerekçesi ve 349 terimden oluşan sözlük eklendi. Her gerekçenin seçenek harfi, metni ve doğru/yanlış durumu mevcut anahtarla eşleştirildi; bütün terim başvuruları tanımlı. Üstteki kısa açıklamalar ve cevap anahtarları değişmedi.
 - Ayrıntı bölümlerinin başlangıçta kapalı olması, kısa metnin üstte kalması ve bu bölümlerin yalnızca yeni sorularda görünmesi bellek içi arayüz kontrolüne dahil edildi.
 - Gerçek Dışı Mod koyu mor temaya sabitlendi. Tema kontrolleri bu modda gizlenir; çıkmışlara dönünce önceki açık/koyu tercih geri gelir. Her iki yöndeki geçişler kontrol edildi.

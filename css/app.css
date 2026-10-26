@@ -453,6 +453,7 @@ html[data-question-mode='generated'] .session-divider { background:#675477; }
 .generated-evidence summary { font-size:11px; }
 .generated-evidence p { font-size:12px; line-height:1.8; white-space:pre-line; padding-bottom:15px; overflow-wrap:anywhere; }
 .generated-source-note { border-left:3px solid var(--wd-gold); padding:12px; font-size:12px; line-height:1.8; }
+.generated-reference { display:block; font-size:12px; padding:10px 0; min-height:44px; overflow-wrap:anywhere; }
 html[data-question-mode='generated'] #question-source { max-width:55%; text-align:right; }
 @media (max-width:640px) {
  .topbar { flex-wrap:wrap; gap:9px; }

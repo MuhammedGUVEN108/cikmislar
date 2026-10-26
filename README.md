@@ -4,14 +4,16 @@
 
 ## v1.2
 
-- Üstteki **Gerçek Dışı Mod** düğmesi, bu yılın ders slaytlarından üretilmiş **90 yeni teorik soruyu** aynı soru motorunda açar. Bunlar çıkmış veya gerçek sınav sorusu değildir; pratik soru içermez ve öğretim üyesi incelemesinden geçmemiştir.
-- Dağılım: 27 Tıbbi Biyoloji, 24 Organik Kimya, 13 Tıp Tarihi ve Etik, 13 Histoloji ve Embriyoloji, 7 Halk Sağlığı, 6 Tıbbi Biyokimya.
+- Üstteki **Gerçek Dışı Mod** düğmesi, bu yılın ders slaytlarından üretilmiş **iki denemede toplam 180 teorik soruyu** aynı soru motorunda açar. Bunlar çıkmış veya gerçek sınav sorusu değildir; pratik soru içermez ve öğretim üyesi incelemesinden geçmemiştir.
+- Her denemenin dağılımı: 27 Tıbbi Biyoloji, 24 Organik Kimya, 13 Tıp Tarihi ve Etik, 13 Histoloji ve Embriyoloji, 7 Halk Sağlığı, 6 Tıbbi Biyokimya.
+- Deneme seti filtresinden **Deneme 01**, **Deneme 02** veya **Bütün denemeler** seçilebilir. Yeni açılan Gerçek Dışı Mod'da en yeni deneme seçili gelir. Set ve ders birlikte filtrelenir; soru dizini ve kaynak penceresi gerçek deneme adını gösterir.
 - Her iki modda da ilk şık seçimi kilitlenir; doğru/yanlış hemen görünür. Deneme modunda açıklama da otomatik açılır. Ders filtresi, karışık sıra, soru dizini, tema ve yanlışları yeniden çözme ortak arayüzü kullanır.
 - Çıkmış ve deneme cevapları açık sekmede ayrı tutulur. Mod değiştirirken çalışma korunur; sayfa yenilenince her ikisi de silinir. Deneme anahtarı, özgün kaynak anahtarından ayrı `authoredKey` alanındadır; eski 451 kayıt değiştirilmemiştir.
 - Deneme sorularının kaynak penceresinde slayt dosyası, sayfa / slayt numarası ve ilgili metin yer alır. Eski ikili PPT kaynağında konum, slayt numarası olmadığı belirtilen metin kaydıdır. Yerel dosya yolları veya erişilemeyen masaüstü bağlantıları yayımlanmaz.
 - Doğrudan mod bağlantısı: `?mod=gercek-disi`.
 - Gerçek Dışı Mod yalnızca **koyu mor temada** çalışır; tema düğmesi bu modda görünmez. Çıkmışlara dönüldüğünde önceki açık/koyu tercih geri gelir.
-- Bu moddaki **90 sorunun her birinde** kısa AI açıklaması üstte korunur. Altındaki kapalı **Şıkları tek tek incele** ve **Terimleri açıkla** bölümleri istenirse açılır: toplam **450 şık açıklaması**, **349 farklı terim tanımı** vardır. Bunlar sabit metindir; tarayıcıdan AI servisine istek gönderilmez.
+- Bu moddaki **180 sorunun her birinde** kısa AI açıklaması üstte korunur. Altındaki kapalı **Şıkları tek tek incele** ve **Terimleri açıkla** bölümleri istenirse açılır: toplam **900 şık açıklaması**, **458 farklı terim tanımı** vardır. Bunlar sabit metindir; tarayıcıdan AI servisine istek gönderilmez.
+- Deneme 02'nin slayt referansları 40 dosyaya uzanır. N-bağlı glikozilasyon slaydındaki Asp/Asn karışıklığı açıkça belirtilip asparajin esas alınmıştır; perinatal hesapta gebelik sınırı soruda tanımlanmıştır. İlgili iki sorunun kaynak penceresinde NCBI ve WHO ek kontrol bağlantıları bulunur.
 - **Not hesabı:** finalsiz geçişte ham yıl içi ortalama **79,5**, final dahil ağırlıklı toplamda **59,5** baraj kabul edilir; bu değerler sırasıyla 80 ve 60'a yuvarlanır. Ara notlar ayrıca yuvarlanmaz. Gereken final ve kalan not hedefleri bu barajlara göre hesaplanır. Örnek: yıl içi ortalama 50 ise gereken final 73,75'tir; toplam 59,50 olur.
 
 ## v1.1
@@ -65,6 +67,7 @@ Web Dili / sunum-sitesi çekirdeği kullanıldı. Fontlar sistem yedeklerinden g
 - `js/questions.js`: kaynağı değiştirmeden oluşturulan çalışma verisi
 - `js/generated-questions.js`: Gerçek Dışı Mod'un 90 sorusu ve slayt referansları
 - `js/generated-explanations.js`: bu 90 sorunun A–E gerekçeleri ve ortak terim sözlüğü
+- `js/generated-exam-02.js`: Deneme 02'nin 90 sorusu, 450 şık gerekçesi ve sözlüğe eklenen 109 tanım
 - `js/generated-manifest.json`: denemenin kapsamı ve ders dağılımı
 - `js/core.js`, `js/app.js`: soru mantığı ve arayüz
 - `css/`: korunmuş tasarım çekirdeği ve uygulama stilleri

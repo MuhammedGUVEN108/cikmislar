@@ -1,15 +1,35 @@
 {
-  "id": "d1k1-deneme01",
-  "title": "Gerçek Dışı Mod · Deneme 01",
-  "questionCount": 90,
+  "schemaVersion": 2,
+  "title": "Gerçek Dışı Mod",
+  "questionCount": 180,
   "theoryOnly": true,
-  "blueprint": {
-    "Tıbbi Biyoloji": 27,
-    "Organik Kimya": 24,
-    "Tıp Tarihi ve Etik": 13,
-    "Histoloji ve Embriyoloji": 13,
-    "Halk Sağlığı": 7,
-    "Tıbbi Biyokimya": 6
-  },
-  "note": "Slaytlardan yapay zekâ yardımıyla üretilmiş yeni sorular; geçmiş sınavda sorulmuş değildir. Öğretim üyesi incelemesinden geçmemiştir."
+  "exams": [
+    {
+      "id": "d1k1-deneme01",
+      "title": "Deneme 01",
+      "questionCount": 90,
+      "blueprint": {
+        "Tıbbi Biyoloji": 27,
+        "Organik Kimya": 24,
+        "Tıp Tarihi ve Etik": 13,
+        "Histoloji ve Embriyoloji": 13,
+        "Halk Sağlığı": 7,
+        "Tıbbi Biyokimya": 6
+      }
+    },
+    {
+      "id": "d1k1-deneme02",
+      "title": "Deneme 02",
+      "questionCount": 90,
+      "blueprint": {
+        "Tıbbi Biyoloji": 27,
+        "Organik Kimya": 24,
+        "Tıp Tarihi ve Etik": 13,
+        "Histoloji ve Embriyoloji": 13,
+        "Halk Sağlığı": 7,
+        "Tıbbi Biyokimya": 6
+      }
+    }
+  ],
+  "note": "Slaytlardan yapay zekâ yardımıyla üretilmiş sorulardır; çıkmış değildir. Akademisyen onayından geçmemiştir."
 }
