@@ -135,8 +135,6 @@
     $('question-position').textContent = `SORU ${String(position + 1).padStart(2,'0')} / ${session.length}`;
     $('question-subject').textContent = q.subject;
     $('question-source').textContent = questionLabel(q);
-    $('question-author').hidden = !q.author;
-    $('question-author').textContent = q.author ? `Soru sahibi: ${q.author}` : '';
     $('question-transcription-note').hidden = !q.transcriptionNotes?.length;
     $('question-transcription-note').textContent = (q.transcriptionNotes || []).join(' ');
     $('question-stem').textContent = q.stem;
@@ -235,7 +233,6 @@
       const a=element('a','',`Kaynak sayfa ${q.pages[i] ?? q.pages[0]} · Ayrı sekmede büyüt ↗`);a.href=src;a.target='_blank';a.rel='noopener noreferrer';
       figure.append(img,element('figcaption','',`Bu tam sayfada aradığın soru: ${q.number}.`),a);container.append(figure);
     }
-    if (q.author) container.append(element('p','wd-help',`Soru sahibi: ${q.author} · Anabilim dalı: ${q.subject} · Kaynak referansı: ${q.sourceRef}`));
     if (q.sourceImageKind === 'reformatted_book') container.append(element('p','wd-help','Bu sayfa, yeniden düzenlenmiş soru kitapçığından alınmıştır.'));
     for (const ref of q.references || []) {
       const link=element('a','generated-reference',`${ref.title} ↗`);link.href=ref.url;link.target='_blank';link.rel='noopener noreferrer';container.append(link);
