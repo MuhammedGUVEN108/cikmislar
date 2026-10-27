@@ -135,6 +135,10 @@
     $('question-position').textContent = `SORU ${String(position + 1).padStart(2,'0')} / ${session.length}`;
     $('question-subject').textContent = q.subject;
     $('question-source').textContent = questionLabel(q);
+    $('question-author').hidden = !q.author;
+    $('question-author').textContent = q.author ? `Soru sahibi: ${q.author}` : '';
+    $('question-transcription-note').hidden = !q.transcriptionNotes?.length;
+    $('question-transcription-note').textContent = (q.transcriptionNotes || []).join(' ');
     $('question-stem').textContent = q.stem;
     $('generated-question-disclaimer').hidden = q.origin !== 'generated';
     const aiSupport = $('ai-support');
@@ -144,7 +148,7 @@
     $('ai-explanation').textContent = q.aiExplanation || 'Bu soru için AI açıklaması eklenmedi.';
     renderLearningDetails(q);
     $('question-id').textContent = q.id;
-    $('question-pages').textContent = q.origin === 'generated' ? `${q.topic} · Teorik deneme sorusu` : `Kaynak sayfa: ${q.pages.join(', ')}`;
+    $('question-pages').textContent = q.origin === 'generated' ? `${q.topic} · Teorik deneme sorusu` : `${q.sourceImageKind === 'reformatted_book' ? 'Düzenlenmiş kitapçık sayfası' : 'Kaynak sayfa'}: ${q.pages.join(', ')}`;
     $('source-summary-label').textContent = q.origin === 'generated' ? 'Slayt kaynağını ve metnini aç' : 'Kaynak sayfasını aç';
     $('source-summary-hint').textContent = q.origin === 'generated' ? 'Dosya ve sayfa / slayt numarası' : 'Cevap işaretleri içerebilir';
     $('question-warning').hidden = !reason;
@@ -230,6 +234,11 @@
       const figure=element('figure','source-page');const img=element('img');img.src=src;img.alt=`${q.year} kaynak sayfa ${q.pages[i] ?? q.pages[0]}`;img.loading='lazy';
       const a=element('a','',`Kaynak sayfa ${q.pages[i] ?? q.pages[0]} · Ayrı sekmede büyüt ↗`);a.href=src;a.target='_blank';a.rel='noopener noreferrer';
       figure.append(img,element('figcaption','',`Bu tam sayfada aradığın soru: ${q.number}.`),a);container.append(figure);
+    }
+    if (q.author) container.append(element('p','wd-help',`Soru sahibi: ${q.author} · Anabilim dalı: ${q.subject} · Kaynak referansı: ${q.sourceRef}`));
+    if (q.sourceImageKind === 'reformatted_book') container.append(element('p','wd-help','Bu sayfa, yeniden düzenlenmiş soru kitapçığından alınmıştır.'));
+    for (const ref of q.references || []) {
+      const link=element('a','generated-reference',`${ref.title} ↗`);link.href=ref.url;link.target='_blank';link.rel='noopener noreferrer';container.append(link);
     }
   }
   function renderResults() {

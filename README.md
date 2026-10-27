@@ -1,6 +1,14 @@
 # Çıkmışlar — Bir soru daha.
 
-**451 soru · 5 yıl · 7 ders.** Kurulum veya derleme gerektirmeyen statik çalışma sitesi.
+**541 soru · 6 yıl · 7 ders.** Kurulum veya derleme gerektirmeyen statik çalışma sitesi.
+
+## 2026-2027 çıkmışları
+
+- 90 gerçek sınav sorusu eklendi; arşiv 541 soru ve 6 akademik yıl oldu. Gerçek Dışı Mod'un 180 sorusu ayrıdır.
+- Yeni kayıtlar `js/questions-2026-2027.js` içinde; önceki 451 kayıt değiştirilmedi. `author`, `sourceRef` ve `booklet` kaynak bilgilerini korur; soru sahibi çözüm ekranında görünür.
+- 26 kaynak görseli, görselli A-E seçenekleri ve 90 kaynak cevabı korundu. `verifiedKeys: null`, cevapların tamamının bağımsız bilimsel doğrulamasının yapılmadığı anlamına gelir.
+- Kaynak 8. sorunun Na yükü Na⁺ olarak düzeltildi; kaynak metni `originalStem` alanında, açıklama ve akademik bağlantı kayıtta korunur. 42. sorunun ayrık indisleri özgün sayfanın metin sırasıyla yeniden birleştirildi. Yanlış seçeneklerin içeriği değiştirilmedi.
+- Yeni yılın tam sayfa görselleri özgün kişisel sonuç dökümünden değil, düzeltilmiş soru kitapçığından üretilmiştir; öğrenci adı/puanı/işaretlemeleri içermez.
 
 ## v1.2
 
