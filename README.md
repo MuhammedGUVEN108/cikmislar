@@ -1,11 +1,11 @@
 # Çıkmışlar — Bir soru daha.
 
-**541 soru · 6 yıl · 7 ders.** Kurulum veya derleme gerektirmeyen statik çalışma sitesi.
+**1010 soru · 6 yıl · 9 ders.** Kurulum veya derleme gerektirmeyen statik çalışma sitesi.
 
 ## 2026-2027 çıkmışları
 
-- 90 gerçek sınav sorusu eklendi; arşiv 541 soru ve 6 akademik yıl oldu. Gerçek Dışı Mod'un 180 sorusu ayrıdır.
-- Yeni kayıtlar `js/questions-2026-2027.js` içinde; önceki 451 kayıt değiştirilmedi. `author`, `sourceRef` ve `booklet` kaynak bilgilerini korur; soru sahibi çözüm ekranında görünür.
+- 90 gerçek sınav sorusu eklendi; bu güncellemede arşiv 541 soru ve 6 akademik yıl oldu. Gerçek Dışı Mod'un 180 sorusu ayrıdır.
+- Yeni kayıtlar `js/questions-2026-2027.js` içinde; önceki 451 kayıt değiştirilmedi. `author`, `sourceRef` ve `booklet` kaynak bilgilerini korur; soru sahibi yalnızca kaynak veride korunur, arayüzde gösterilmez.
 - 26 kaynak görseli, görselli A-E seçenekleri ve 90 kaynak cevabı korundu. `verifiedKeys: null`, cevapların tamamının bağımsız bilimsel doğrulamasının yapılmadığı anlamına gelir.
 - Kaynak 8. sorunun Na yükü Na⁺ olarak düzeltildi; kaynak metni `originalStem` alanında, açıklama ve akademik bağlantı kayıtta korunur. 42. sorunun ayrık indisleri özgün sayfanın metin sırasıyla yeniden birleştirildi. Yanlış seçeneklerin içeriği değiştirilmedi.
 - Yeni yılın tam sayfa görselleri özgün kişisel sonuç dökümünden değil, düzeltilmiş soru kitapçığından üretilmiştir; öğrenci adı/puanı/işaretlemeleri içermez.
@@ -84,3 +84,8 @@ Web Dili / sunum-sitesi çekirdeği kullanıldı. Fontlar sistem yedeklerinden g
 - `DOGRULAMA.md`: kontroller ve doğrulama sınırları
 
 Kaynak PDF ve veri dosyalarına yazılmamıştır.
+
+
+## 2. Kurul aktarımı · 2026-11-02
+
+2021–2026 beş yılın 469 sorusu eklendi. Kurul/yıl/ders birlikte filtrelenebilir. Kaynağı eksik 10 yeni soru puan dışıdır. Kaynakta ders bilgisi bulunmayan 2022–2023 kayıtları Ders belirtilmemiş olarak korunur. Kaynak anahtarları ve özgün görseller korunmuş, soru sahibi isimleri arayüze eklenmemiştir.

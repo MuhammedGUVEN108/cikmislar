@@ -6,19 +6,22 @@
   }
   function gradingKey(q) {
     if (q.origin === 'generated') return allowedLabels.has(q.authoredKey) ? q.authoredKey : null;
+    if (q.status === 'source_incomplete') return null;
     if (q.status === 'cancelled' || q.sourceKeys.length !== 1) return null;
     return allowedLabels.has(q.sourceKeys[0]) ? q.sourceKeys[0] : null;
   }
   function reviewReason(q) {
     if (q.origin === 'generated') return gradingKey(q) ? '' : 'Deneme cevap anahtarı eksik';
     if (q.status === 'cancelled') return 'Bu soru kaynakta iptal edilmiş';
+    if (q.status === 'source_incomplete') return 'Kaynak metninde veya seçeneklerinde eksik / örtülü alan var';
     if (!gradingKey(q)) return 'Kaynak cevap anahtarı yok veya okunamıyor';
     if (q.correctionNotes?.length) return 'Kaynakta bu soruya ilişkin düzeltme notu var';
     return '';
   }
   function select(questions, filters = {}) {
-    return questions.filter(q => (!filters.year || q.year === filters.year) && (!filters.subject || q.subject === filters.subject) && (filters.includeReview !== false || gradingKey(q)));
+    return questions.filter(q => (!filters.committee || String(committeeOf(q)) === String(filters.committee)) && (!filters.year || q.year === filters.year) && (!filters.subject || q.subject === filters.subject) && (filters.includeReview !== false || gradingKey(q)));
   }
+  function committeeOf(q) { return q.committee || 1; }
   function evaluate(q, label) {
     if (!allowedLabels.has(label) || !q.options.some(o => o.label === label)) throw new Error('Geçersiz şık');
     const key = gradingKey(q);
@@ -41,5 +44,5 @@
     }
     return out;
   }
-  root.QuizCore = Object.freeze({ normalize, gradingKey, reviewReason, select, evaluate, shuffle, summarize });
+  root.QuizCore = Object.freeze({ normalize, gradingKey, reviewReason, committeeOf, select, evaluate, shuffle, summarize });
 })(typeof window !== 'undefined' ? window : globalThis);

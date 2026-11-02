@@ -21,13 +21,14 @@
   let position = 0;
   let view = 'setup';
   let sessionLabel = '';
-  const filters = () => ({ year: $('year-filter').value, subject: selectedSubject, includeReview: $('review-filter').checked });
+  const filters = () => ({ committee: isGenerated() ? '' : $('committee-filter').value, year: $('year-filter').value, subject: selectedSubject, includeReview: $('review-filter').checked });
   const isGenerated = () => activeMode === 'generated';
   function updateThemeColor() {
     const dark=document.documentElement.dataset.theme==='dark';
     document.querySelector('meta[name="theme-color"]').content=isGenerated() ? (dark?'#26222e':'#f4f0fa') : (dark?'#262624':'#f3efe4');
   }
-  const questionLabel = q => q.origin === 'generated' ? `${q.year} · Soru ${q.number} · Çıkmış değildir` : `${q.year} · Soru ${q.number}`;
+  const questionLabel = q => q.origin === 'generated' ? `${q.year} · Soru ${q.number} · Çıkmış değildir` : `${C.committeeOf(q)}. Kurul · ${q.year} · Soru ${q.number}`;
+  const describeFilters = f => `${isGenerated() ? '' : (f.committee ? `${f.committee}. Kurul · ` : 'Bütün kurullar · ')}${f.year || (isGenerated() ? 'Bütün denemeler' : 'Bütün yıllar')} · ${f.subject || 'Bütün dersler'}`;
   const keyLabel = q => q.origin === 'generated' ? 'Deneme anahtarı' : 'Kaynak anahtarı';
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -69,13 +70,15 @@
   }
   function updateFilters() {
     const f = filters();
+    subjects = [...new Set(C.select(all,{committee:f.committee}).map(q=>q.subject))].sort((a,b)=>a.localeCompare(b,'tr'));
+    if (selectedSubject && !subjects.includes(selectedSubject)) { selectedSubject='';f.subject=''; }
     const selected = C.select(all,f);
     const graded = selected.filter(q => C.gradingKey(q)).length;
     $('filtered-count').textContent = selected.length;
-    $('selection-description').textContent = `${f.year || (isGenerated()?'Bütün denemeler':'Bütün yıllar')} · ${f.subject || 'Bütün dersler'}`;
+    $('selection-description').textContent = describeFilters(f);
     $('set-breakdown').textContent = isGenerated() ? `${selected.length} teorik · 0 pratik · Açıklamalı deneme soruları` : `${graded} cevap anahtarlı · ${selected.length - graded} puan dışı`;
     $('start-session').disabled = selected.length === 0;
-    const pool = C.select(all,{year:f.year,includeReview:f.includeReview});
+    const pool = C.select(all,{committee:f.committee,year:f.year,includeReview:f.includeReview});
     const list = $('subject-filters'); list.replaceChildren();
     for (const [index, subject] of ['',...subjects].entries()) {
       const count = subject ? pool.filter(q=>q.subject===subject).length : pool.length;
@@ -194,7 +197,7 @@
       feedback.classList.add(answer.result);
       if (answer.result === 'correct') feedback.textContent=`✓ Doğru. ${keyLabel(q)}: ${answer.key}.`;
       else if (answer.result === 'wrong') feedback.textContent=`× Yanlış. Seçimin ${answer.selected}; ${keyLabel(q).toLocaleLowerCase('tr')}: ${answer.key}.`;
-      else feedback.textContent=q.status==='cancelled'?'! İptal edilmiş soru; doğru/yanlış sayısına katılmaz.':'! Kaynak cevap anahtarı yok veya okunamıyor; doğru/yanlış sayısına katılmaz.';
+      else feedback.textContent=q.status==='cancelled'?'! İptal edilmiş soru; doğru/yanlış sayısına katılmaz.':q.status==='source_incomplete'?'! Kaynak eksikliği bulunan soru; doğru/yanlış sayısına katılmaz.':'! Kaynak cevap anahtarı yok veya okunamıyor; doğru/yanlış sayısına katılmaz.';
     }
     const notes = $('answer-notes'); notes.replaceChildren(); notes.hidden=!answer;
     if (answer) {
@@ -255,7 +258,7 @@
       if(query && !C.normalize(`${q.stem} ${q.subject} ${q.year} ${q.number} ${q.id} ${q.options.map(o=>o.text||'').join(' ')}`).includes(query))return;
       const a=answers.get(q.id);const mark=a ? {correct:'✓',wrong:'×',review:'!'}[a.result] : '·';
       const b=element('button',`bank-cell ${a?.result||''}`,`${index+1} ${mark}`);b.type='button';
-      b.append(element('span','',q.origin === 'generated' ? `${q.year} / ${q.number}` : `${q.year.slice(2,4)}–${q.year.slice(7)} / ${q.number}`));
+      b.append(element('span','',q.origin === 'generated' ? `${q.year} / ${q.number}` : `K${C.committeeOf(q)} · ${q.year.slice(2,4)}–${q.year.slice(7)} / ${q.number}`));
       b.setAttribute('aria-label',`${index+1}. soru, ${questionLabel(q)}, ${q.subject}, ${a?{correct:'doğru',wrong:'yanlış',review:'puan dışı'}[a.result]:'cevaplanmadı'}`);
       if(position===index)b.setAttribute('aria-current','step');
       b.addEventListener('click',()=>{position=index;$('bank-dialog').close();setView('study');renderQuestion(true);});grid.append(b);
@@ -266,8 +269,9 @@
   function fillYears(value='') {
     const select=$('year-filter');select.replaceChildren();
     const first=element('option','',isGenerated()?'Bütün denemeler':'Bütün yıllar');first.value='';select.append(first);
-    for (const year of [...new Set(all.map(q=>q.year))].sort()) {const option=element('option','',year);option.value=year;select.append(option);}
-    select.value=value;
+    const years=[...new Set(C.select(all,{committee:isGenerated()?'':$('committee-filter').value}).map(q=>q.year))].sort();
+    for (const year of years) {const option=element('option','',year);option.value=year;select.append(option);}
+    select.value=years.includes(value)?value:'';
   }
   function applyModeAppearance() {
     const generatedMode=isGenerated();document.documentElement.dataset.questionMode=activeMode;
@@ -288,9 +292,10 @@
     $('hero-description').innerHTML=generatedMode?`Ders slaytlarından ${generatedExamNames.length} deneme, ${generated.length} teorik soru.<br>Seç, dene, açıklamasıyla öğren.`:'Yılını seç. Dersini belirle.<br>Bildiklerini bir sonraki soruda dene.';
     $('hero-question-count').textContent=all.length;
     $('hero-question-label').textContent=generatedMode?'deneme sorusu':'çıkmış soru';
-    $('hero-set-count').textContent=generatedMode?String(generatedExamNames.length).padStart(2,'0'):'05';
+    $('hero-set-count').textContent=String(new Set(all.map(q=>q.year)).size).padStart(2,'0');
     $('hero-set-label').textContent=generatedMode?'özgün deneme':'akademik yıl';
-    $('hero-subject-count').textContent=String(subjects.length).padStart(2,'0');
+    $('hero-subject-count').textContent=String(new Set(all.filter(q=>q.subjectProvenance!=='missing_in_source').map(q=>q.subject)).size).padStart(2,'0');
+    $('committee-field').hidden=generatedMode;
     $('year-field-label').textContent=generatedMode?'Deneme seti':'Akademik yıl';
     $('year-field-hint').textContent=generatedMode?'Her deneme 90 teorik soru · Pratik yok':'Tek yıl veya bütün yıllar';
     $('subject-field-hint').textContent=generatedMode?'Denemeyle birlikte filtrelenir':'Yılla birlikte filtrelenir';
@@ -301,11 +306,12 @@
   }
   function switchMode(nextMode) {
     if(nextMode===activeMode || nextMode==='generated'&&!generated.length)return;
-    modeStates.set(activeMode,{selectedSubject,session,answers,position,view,sessionLabel,year:$('year-filter').value,includeReview:$('review-filter').checked,order:$('order-filter').value});
+    modeStates.set(activeMode,{selectedSubject,session,answers,position,view,sessionLabel,committee:$('committee-filter').value,year:$('year-filter').value,includeReview:$('review-filter').checked,order:$('order-filter').value});
     activeMode=nextMode;all=isGenerated()?generated:archive;
     subjects=[...new Set(all.map(q=>q.subject))].sort((a,b)=>a.localeCompare(b,'tr'));
     const saved=modeStates.get(activeMode);
     selectedSubject=saved?.selectedSubject||'';session=saved?.session||[];answers=saved?.answers||new Map();position=saved?.position||0;sessionLabel=saved?.sessionLabel||'';
+    $('committee-filter').value=saved?.committee??'1';
     fillYears(saved ? saved.year : (isGenerated()?newestGeneratedExam:''));$('review-filter').checked=saved?.includeReview??true;$('order-filter').value=saved?.order||'ordered';
     applyModeAppearance();updateFilters();
     const target=saved?.view||'setup';setView(target);
@@ -315,10 +321,11 @@
   $('generated-mode-toggle').addEventListener('click',()=>switchMode(isGenerated()?'archive':'generated'));
   $('generated-back').addEventListener('click',()=>switchMode('archive'));
   fillYears();
+  $('committee-filter').addEventListener('change',()=>{fillYears($('year-filter').value);updateFilters();});
   $('year-filter').addEventListener('change',updateFilters);
   $('review-filter').addEventListener('change',updateFilters);
-  $('reset-filters').addEventListener('click',()=>{$('year-filter').value='';selectedSubject='';$('review-filter').checked=true;$('order-filter').value='ordered';updateFilters();});
-  $('start-session').addEventListener('click',()=>{const f=filters();const items=C.select(all,f);start($('order-filter').value==='random'?C.shuffle(items):items,`${f.year||(isGenerated()?'Bütün denemeler':'Bütün yıllar')} · ${f.subject||'Bütün dersler'}`);});
+  $('reset-filters').addEventListener('click',()=>{$('committee-filter').value='';fillYears();selectedSubject='';$('review-filter').checked=true;$('order-filter').value='ordered';updateFilters();});
+  $('start-session').addEventListener('click',()=>{const f=filters();const items=C.select(all,f);start($('order-filter').value==='random'?C.shuffle(items):items,describeFilters(f));});
   for(const id of ['back-to-setup','new-selection'])$(id).addEventListener('click',()=>setView('setup'));
   $('nav-setup').addEventListener('click',e=>{e.preventDefault();setView('setup');});
   $('nav-study').addEventListener('click',e=>{e.preventDefault();if(!session.length){$('start-session').click();}else{setView('study');renderQuestion(true);}});
@@ -346,6 +353,8 @@
   $('release-close').addEventListener('click',()=>$('release-dialog').close());
   $('release-continue').addEventListener('click',()=>$('release-dialog').close());
   $('loading-message').hidden=true;applyModeAppearance();updateFilters();setView('setup');
+  const requestedCommittee=new URLSearchParams(window.location.search).get('kurul');
+  if (['1','2'].includes(requestedCommittee)) { $('committee-filter').value=requestedCommittee;fillYears();updateFilters(); }
   if (new URLSearchParams(window.location.search).get('mod')==='gercek-disi') switchMode('generated');
   $('release-dialog').showModal();
 })();

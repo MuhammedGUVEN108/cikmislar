@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.1",
+  "period": 1,
+  "committee": 2,
+  "questionCount": 469,
+  "optionCount": 2345,
+  "years": {
+    "2021-2022": 95,
+    "2022-2023": 93,
+    "2023-2024": 93,
+    "2024-2025": 100,
+    "2025-2026": 88
+  },
+  "subjects": {
+    "Tıbbi Genetik": 35,
+    "Biyoistatistik ve Tıp Bilişimi": 38,
+    "Biyokimya": 181,
+    "Tıbbi Biyoloji": 91,
+    "Ders belirtilmemiş": 93,
+    "Tıp Eğitimi ve Bilişimi": 13,
+    "Organik Kimya": 18
+  },
+  "figureCount": 31,
+  "sourcePageCount": 143,
+  "sourceFiles": [
+    {
+      "file": "D1 Komite 2 (21-22).pdf",
+      "year": "2021-2022",
+      "pages": 17,
+      "sha256": "7c16f309da529b1dc25b8dac4a6638c579977deeb9011d5897b59fafe66c7535"
+    },
+    {
+      "file": "D1 Komite 2 (22-23).pdf",
+      "year": "2022-2023",
+      "pages": 24,
+      "sha256": "dd062b66eb09749f439ec9a35079a285b6153c126b7aee68b072fde20afa09da"
+    },
+    {
+      "file": "D1 Komite 2 (23-24).pdf",
+      "year": "2023-2024",
+      "pages": 32,
+      "sha256": "c0dd86debc16bd2cf128b1d163aa2a6d67ba84bf199777948522fffe669f6409"
+    },
+    {
+      "file": "D1 Komite 2 (24-25).pdf",
+      "year": "2024-2025",
+      "pages": 38,
+      "sha256": "b5a0ca6bbf3219aa8838f8d2d0478a548b311d999c24f97f04ae6865dff47baf"
+    },
+    {
+      "file": "D1 Komite 2 (25-26).pdf",
+      "year": "2025-2026",
+      "pages": 32,
+      "sha256": "4930c1ae4335efd963d97a3f417b9721835da731db17af3b4b6d412fcb9c8b8f"
+    }
+  ],
+  "sourceIncompleteQuestions": [
+    "imu-d1-k2-2021-2022-q002",
+    "imu-d1-k2-2021-2022-q008",
+    "imu-d1-k2-2021-2022-q031",
+    "imu-d1-k2-2021-2022-q062",
+    "imu-d1-k2-2021-2022-q063",
+    "imu-d1-k2-2021-2022-q069",
+    "imu-d1-k2-2021-2022-q070",
+    "imu-d1-k2-2021-2022-q071",
+    "imu-d1-k2-2021-2022-q092",
+    "imu-d1-k2-2021-2022-q095"
+  ],
+  "missingSubjectCount": 93,
+  "answerPolicy": "Kaynak anahtarları korunur; bağımsız bilimsel doğrulama yapılmadı. Kaynağı eksik sorular puan dışıdır.",
+  "importTextCorrections": 44
+}
