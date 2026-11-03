@@ -466,10 +466,23 @@ html[data-question-mode='generated'] #question-source { max-width:55%; text-alig
  .generated-intro .text-button { align-self:flex-end; }
 }
 
-/* Small contact link, visible only within the entry screen. */
-.setup-feedback { display: flex; justify-content: flex-end; margin: 2px 0 8px; }
-.setup-feedback a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; max-width: 100%; color: var(--wd-secondary); font-size: 11px; text-decoration: none; }
-.setup-feedback svg { flex-shrink: 0; }
-.setup-feedback strong { font-weight: 500; }
-.setup-feedback a:hover { color: var(--wd-text); text-decoration: underline; text-underline-offset: 4px; }
-.setup-feedback a:focus-visible { outline: 2px solid var(--wd-text); outline-offset: 4px; }
+/* Feedback beside the logo; compact icon on the desktop rail. */
+.brand-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
+.brand-feedback { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 44px; min-height: 44px; color: var(--wd-secondary); text-decoration: none; flex-shrink: 0; }
+.brand-feedback svg { flex-shrink: 0; }
+.brand-feedback-copy { display: none; font-size: 9px; line-height: 1.5; }
+.brand-feedback-copy > span, .brand-feedback-copy > strong { display: block; }
+.brand-feedback-copy strong { font-weight: 500; }
+.brand-feedback:hover { color: var(--wd-text); }
+.brand-feedback:hover .brand-feedback-copy { text-decoration: underline; text-underline-offset: 3px; }
+.brand-feedback:focus-visible { outline: 2px solid var(--wd-text); outline-offset: 3px; }
+@media (min-width: 1081px) {
+  .brand-row .brand { gap: 7px; font-size: 18px; }
+  .brand-row .brand-mark { width: 32px; height: 40px; font-size: 31px; }
+  .brand-row .brand-sub { font-size: 7px; letter-spacing: 1px; }
+}
+@media (max-width: 1080px) {
+  .brand-row { flex: 1 0 100%; }
+  .brand-feedback-copy { display: block; }
+  .brand-feedback { gap: 6px; }
+}
