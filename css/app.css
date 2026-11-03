@@ -466,7 +466,7 @@ html[data-question-mode='generated'] #question-source { max-width:55%; text-alig
  .generated-intro .text-button { align-self:flex-end; }
 }
 
-/* Feedback beside the logo; compact icon on the desktop rail. */
+/* Mobile feedback beside the logo; desktop feedback in the top bar. */
 .brand-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
 .brand-feedback { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 44px; min-height: 44px; color: var(--wd-secondary); text-decoration: none; flex-shrink: 0; }
 .brand-feedback svg { flex-shrink: 0; }
@@ -476,10 +476,13 @@ html[data-question-mode='generated'] #question-source { max-width:55%; text-alig
 .brand-feedback:hover { color: var(--wd-text); }
 .brand-feedback:hover .brand-feedback-copy { text-decoration: underline; text-underline-offset: 3px; }
 .brand-feedback:focus-visible { outline: 2px solid var(--wd-text); outline-offset: 3px; }
+.topbar-feedback { display: none; }
 @media (min-width: 1081px) {
-  .brand-row .brand { gap: 7px; font-size: 18px; }
-  .brand-row .brand-mark { width: 32px; height: 40px; font-size: 31px; }
-  .brand-row .brand-sub { font-size: 7px; letter-spacing: 1px; }
+  .brand-row > .brand-feedback { display: none; }
+  .topbar-feedback { display: inline-flex; gap: 9px; margin-left: 8px; padding-left: 18px; border-left: 1px solid var(--wd-line); }
+  .topbar-feedback .brand-feedback-copy { display: block; font-size: 10px; line-height: 1.5; }
+  .topbar-feedback .brand-feedback-copy > span { color: var(--wd-muted); }
+  .topbar-feedback .brand-feedback-copy > strong { font-size: 11px; color: var(--wd-text); }
 }
 @media (max-width: 1080px) {
   .brand-row { flex: 1 0 100%; }
