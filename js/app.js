@@ -21,14 +21,14 @@
   let position = 0;
   let view = 'setup';
   let sessionLabel = '';
-  const filters = () => ({ committee: isGenerated() ? '' : $('committee-filter').value, year: $('year-filter').value, subject: selectedSubject, includeReview: $('review-filter').checked });
+  const filters = () => ({ committee: $('committee-filter').value, year: $('year-filter').value, subject: selectedSubject, includeReview: $('review-filter').checked });
   const isGenerated = () => activeMode === 'generated';
   function updateThemeColor() {
     const dark=document.documentElement.dataset.theme==='dark';
     document.querySelector('meta[name="theme-color"]').content=isGenerated() ? (dark?'#26222e':'#f4f0fa') : (dark?'#262624':'#f3efe4');
   }
-  const questionLabel = q => q.origin === 'generated' ? `${q.year} · Soru ${q.number} · Çıkmış değildir` : `${C.committeeOf(q)}. Kurul · ${q.year} · Soru ${q.number}`;
-  const describeFilters = f => `${isGenerated() ? '' : (f.committee ? `${f.committee}. Kurul · ` : 'Bütün kurullar · ')}${f.year || (isGenerated() ? 'Bütün denemeler' : 'Bütün yıllar')} · ${f.subject || 'Bütün dersler'}`;
+  const questionLabel = q => q.origin === 'generated' ? `${C.committeeOf(q)}. Kurul · ${q.year} · Soru ${q.number} · Çıkmış değildir` : `${C.committeeOf(q)}. Kurul · ${q.year} · Soru ${q.number}`;
+  const describeFilters = f => `${f.committee ? `${f.committee}. Kurul · ` : 'Bütün kurullar · '}${f.year || (isGenerated() ? 'Bütün denemeler' : 'Bütün yıllar')} · ${f.subject || 'Bütün dersler'}`;
   const keyLabel = q => q.origin === 'generated' ? 'Deneme anahtarı' : 'Kaynak anahtarı';
   function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -78,6 +78,17 @@
     $('selection-description').textContent = describeFilters(f);
     $('set-breakdown').textContent = isGenerated() ? `${selected.length} teorik · 0 pratik · Açıklamalı deneme soruları` : `${graded} cevap anahtarlı · ${selected.length - graded} puan dışı`;
     $('start-session').disabled = selected.length === 0;
+    $('generated-empty').hidden = !isGenerated() || C.select(all,{committee:f.committee}).length > 0;
+    if (isGenerated()) {
+      const committeePool=C.select(all,{committee:f.committee});
+      const exams=[...new Set(committeePool.map(q=>q.year))];
+      const label=f.committee ? `${f.committee}. Kurul` : 'Bütün kurullar';
+      $('generated-summary').textContent=committeePool.length ? `${label}: ${exams.join(' ve ')} · ${committeePool.length} teorik soru. Her deneme 90 sorudan oluşur; pratik soru yok. Bunlar çıkmış soru değildir.` : `${label} için henüz deneme eklenmedi.`;
+      $('hero-description').textContent=committeePool.length ? `${label} · ${exams.length} deneme, ${committeePool.length} teorik soru. Seç, dene, açıklamasıyla öğren.` : `${label} denemeleri daha sonra eklenecek.`;
+      $('hero-question-count').textContent=committeePool.length;
+      $('hero-set-count').textContent=String(exams.length).padStart(2,'0');
+      $('hero-subject-count').textContent=String(new Set(committeePool.map(q=>q.subject)).size).padStart(2,'0');
+    }
     const pool = C.select(all,{committee:f.committee,year:f.year,includeReview:f.includeReview});
     const list = $('subject-filters'); list.replaceChildren();
     for (const [index, subject] of ['',...subjects].entries()) {
@@ -278,7 +289,9 @@
   function fillYears(value='') {
     const select=$('year-filter');select.replaceChildren();
     const first=element('option','',isGenerated()?'Bütün denemeler':'Bütün yıllar');first.value='';select.append(first);
-    const years=[...new Set(C.select(all,{committee:isGenerated()?'':$('committee-filter').value}).map(q=>q.year))].sort();
+    const years=[...new Set(C.select(all,{committee:$('committee-filter').value}).map(q=>q.year))].sort();
+    select.disabled=isGenerated() && years.length===0;
+    if (select.disabled) first.textContent='Henüz deneme yok';
     for (const year of years) {const option=element('option','',year);option.value=year;select.append(option);}
     select.value=years.includes(value)?value:'';
   }
@@ -304,7 +317,8 @@
     $('hero-set-count').textContent=String(new Set(all.map(q=>q.year)).size).padStart(2,'0');
     $('hero-set-label').textContent=generatedMode?'özgün deneme':'akademik yıl';
     $('hero-subject-count').textContent=String(new Set(all.filter(q=>q.subjectProvenance!=='missing_in_source').map(q=>q.subject)).size).padStart(2,'0');
-    $('committee-field').hidden=generatedMode;
+    $('committee-field').hidden=false;
+    $('committee-field-hint').textContent=generatedMode?'Denemeleri kurula göre seç':'1. ve 2. kurul arşivi';
     $('year-field-label').textContent=generatedMode?'Deneme seti':'Akademik yıl';
     $('year-field-hint').textContent=generatedMode?'Her deneme 90 teorik soru · Pratik yok':'Tek yıl veya bütün yıllar';
     $('subject-field-hint').textContent=generatedMode?'Denemeyle birlikte filtrelenir':'Yılla birlikte filtrelenir';
@@ -320,7 +334,7 @@
     subjects=[...new Set(all.map(q=>q.subject))].sort((a,b)=>a.localeCompare(b,'tr'));
     const saved=modeStates.get(activeMode);
     selectedSubject=saved?.selectedSubject||'';session=saved?.session||[];answers=saved?.answers||new Map();position=saved?.position||0;sessionLabel=saved?.sessionLabel||'';
-    $('committee-filter').value=saved?.committee??'1';
+    $('committee-filter').value=saved?.committee??(isGenerated()?'1':'2');
     fillYears(saved ? saved.year : (isGenerated()?newestGeneratedExam:''));$('review-filter').checked=saved?.includeReview??true;$('order-filter').value=saved?.order||'ordered';
     applyModeAppearance();updateFilters();
     const target=saved?.view||'setup';setView(target);
@@ -364,6 +378,9 @@
   $('loading-message').hidden=true;applyModeAppearance();updateFilters();setView('setup');
   const requestedCommittee=new URLSearchParams(window.location.search).get('kurul');
   if (['1','2'].includes(requestedCommittee)) { $('committee-filter').value=requestedCommittee;fillYears();updateFilters(); }
-  if (new URLSearchParams(window.location.search).get('mod')==='gercek-disi') switchMode('generated');
+  if (new URLSearchParams(window.location.search).get('mod')==='gercek-disi') {
+    switchMode('generated');
+    if (['1','2'].includes(requestedCommittee)) { $('committee-filter').value=requestedCommittee;fillYears();updateFilters(); }
+  }
   $('release-dialog').showModal();
 })();

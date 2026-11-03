@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const html=read('index.html'),ctx={console};ctx.window=ctx;ctx.globalThis=ctx;vm.createContext(ctx);
-const scripts=[...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(m=>m[1]);
+const scripts=[...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(m=>m[1].split(/[?#]/)[0]);
 for(const src of scripts.filter(p=>p.startsWith('js/')&&p!=='js/app.js'))vm.runInContext(read(src),ctx,{filename:src});
 new vm.Script(read('js/app.js'));
 const all=ctx.QUESTION_DATA,C=ctx.QuizCore,k1=C.select(all,{committee:'1'}),k2=C.select(all,{committee:'2'});

@@ -19,7 +19,7 @@
   <script defer src="js/data/archive/ai-support-kurul2.js"></script>
   <script defer src="js/core.js"></script>
   <script defer src="js/grades.js"></script>
-  <script defer src="js/app.js"></script>
+  <script defer src="js/app.js?v=committee-2"></script>
 </head>
 <body class="wd-page">
   <a class="wd-skip" href="#main">İçeriğe geç</a>
@@ -41,7 +41,7 @@
       <noscript><div class="wd-panel">Etkileşimli çözüm için JavaScript'i etkinleştirin. <a href="soru-arsivi.html">1010 soruluk okunabilir arşivi açın.</a></div></noscript>
       <div id="loading-message" class="wd-panel" role="status">Sorular hazırlanıyor…</div>
       <section id="secim" class="setup-view" aria-labelledby="hero-title" hidden>
-        <aside id="generated-intro" class="generated-intro" hidden><div><p class="wd-kicker">GERÇEK DIŞI MOD / 02 DENEME</p><p><strong>Deneme 01 ve Deneme 02: toplam 180 teorik soru.</strong> Her deneme 6 dersin sınav ağırlığına göre 90 sorudan oluşur; pratik soru yok. Bunlar çıkmış soru değildir.</p><small>Yapay zekâ yardımıyla oluşturuldu; öğretim üyesi incelemesinden geçmedi. Şık seçince doğru/yanlış ve açıklama hemen açılır.</small></div><button id="generated-back" type="button" class="text-button">Çıkmışlara dön ↗</button></aside>
+        <aside id="generated-intro" class="generated-intro" hidden><div><p class="wd-kicker">GERÇEK DIŞI MOD / KURUL DENEMELERİ</p><p id="generated-summary"><strong>Deneme 01 ve Deneme 02: toplam 180 teorik soru.</strong> Her deneme 6 dersin sınav ağırlığına göre 90 sorudan oluşur; pratik soru yok. Bunlar çıkmış soru değildir.</p><small>Yapay zekâ yardımıyla oluşturuldu; öğretim üyesi incelemesinden geçmedi. Şık seçince doğru/yanlış ve açıklama hemen açılır.</small></div><button id="generated-back" type="button" class="text-button">Çıkmışlara dön ↗</button></aside>
         <div class="hero-grid">
           <div class="hero-copy"><p class="wd-kicker"><span class="tiny-rule"></span><span id="hero-kicker">GEÇMİŞ SORULAR, YENİ BİR BAKIŞ.</span></p><h1 id="hero-title" tabindex="-1">Bir soru<br><em>daha.</em></h1><p class="hero-description" id="hero-description">Yılını seç. Dersini belirle.<br>Bildiklerini bir sonraki soruda dene.</p><div class="hero-stats"><div><strong id="hero-question-count">1010</strong><span id="hero-question-label">çıkmış soru</span></div><div><strong id="hero-set-count">06</strong><span id="hero-set-label">akademik yıl</span></div><div><strong id="hero-subject-count">09</strong><span>ders</span></div></div></div>
           <div class="hero-aside" aria-hidden="true"><span class="stamp">DÖNEM 1<br><b>1–2</b><br>KURUL ARŞİVİ</span><div class="paper-preview"><div class="preview-top"><span>ÇALIŞMA NOTU / 001</span><span>↗</span></div><p>Öğrenmek,<br>bir soruyla<br><em>başlar.</em></p><div class="preview-answer"><span>A</span> Biraz merak.</div><div class="preview-answer"><span>B</span> Biraz tekrar.</div><div class="preview-answer selected"><span>C</span> Bir soru daha. <b>✓</b></div><div class="preview-bottom">SEÇ. DENE. ÖĞREN. TEKRARLA.</div></div><span class="aside-caption">HER ŞIK, BİR HATIRLAMA FIRSATI.</span></div>
@@ -49,14 +49,15 @@
         <div class="section-heading"><span class="wd-number">01</span><h2>Bugün ne çözelim?</h2><button id="reset-filters" class="text-button" type="button">Seçimleri temizle ↺</button></div>
         <div class="selection-layout">
           <div class="filter-panel">
-            <div id="committee-field"><div class="field-heading"><label for="committee-filter"><span class="wd-mono">00 /</span> Kurul</label><span class="field-hint">1. ve 2. kurul arşivi</span></div>
-            <select id="committee-filter" class="wd-input"><option value="">Bütün kurullar</option><option value="1" selected>1. Kurul</option><option value="2">2. Kurul</option></select></div>
+            <div id="committee-field"><div class="field-heading"><label for="committee-filter"><span class="wd-mono">00 /</span> Kurul</label><span class="field-hint" id="committee-field-hint">1. ve 2. kurul arşivi</span></div>
+            <select id="committee-filter" class="wd-input"><option value="">Bütün kurullar</option><option value="1">1. Kurul</option><option value="2" selected>2. Kurul</option></select></div>
+            <p id="generated-empty" class="wd-muted" role="status" hidden>Bu kurul için henüz deneme yok. Denemeler daha sonra eklenecek.</p>
             <div class="field-heading course-heading"><label for="year-filter"><span class="wd-mono">01 /</span> <span id="year-field-label">Akademik yıl</span></label><span class="field-hint" id="year-field-hint">Tek yıl veya bütün yıllar</span></div>
             <select id="year-filter" class="wd-input"><option value="">Bütün yıllar</option></select>
             <div class="field-heading course-heading"><span id="subject-label"><span class="wd-mono">02 /</span> Ders</span><span class="field-hint" id="subject-field-hint">Yılla birlikte filtrelenir</span></div>
             <div id="subject-filters" class="subject-list" role="group" aria-labelledby="subject-label"></div>
           </div>
-          <aside class="session-panel"><div class="wd-kicker">SENİN ÇALIŞMA SETİN</div><div class="set-total"><strong id="filtered-count">541</strong><span>soru</span></div><p id="selection-description">Bütün yıllar · Bütün dersler</p><div class="session-divider"></div><label for="order-filter" class="compact-label">Soru sırası</label><select id="order-filter" class="wd-input"><option value="ordered">Kaynak sırası</option><option value="random">Karışık</option></select><label class="check-row" id="review-filter-row"><input id="review-filter" type="checkbox" checked><span>Eksik kaynak, iptal ve anahtarsız soruları da göster<span class="field-hint">Bu sorular doğru/yanlış sayısına katılmaz</span></span></label><p id="set-breakdown" class="set-breakdown"></p><button id="start-session" type="button" class="wd-button start-button">Çözmeye başla <span aria-hidden="true">↗</span></button><p class="session-footnote">Seçimler yalnızca bu sayfa açıkken kalır.<br>Yenilendiğinde çalışma sıfırlanır.</p></aside>
+          <aside class="session-panel"><div class="wd-kicker">SENİN ÇALIŞMA SETİN</div><div class="set-total"><strong id="filtered-count">469</strong><span>soru</span></div><p id="selection-description">Bütün yıllar · Bütün dersler</p><div class="session-divider"></div><label for="order-filter" class="compact-label">Soru sırası</label><select id="order-filter" class="wd-input"><option value="ordered">Kaynak sırası</option><option value="random">Karışık</option></select><label class="check-row" id="review-filter-row"><input id="review-filter" type="checkbox" checked><span>Eksik kaynak, iptal ve anahtarsız soruları da göster<span class="field-hint">Bu sorular doğru/yanlış sayısına katılmaz</span></span></label><p id="set-breakdown" class="set-breakdown"></p><button id="start-session" type="button" class="wd-button start-button">Çözmeye başla <span aria-hidden="true">↗</span></button><p class="session-footnote">Seçimler yalnızca bu sayfa açıkken kalır.<br>Yenilendiğinde çalışma sıfırlanır.</p></aside>
         </div>
         <figure class="ataturk-tribute">
           <div class="ataturk-photograph"><img class="ataturk-portrait" src="assets/ataturk.jpg" width="564" height="1004" alt="Gazi Mustafa Kemal Atatürk" loading="lazy" decoding="async"></div>
