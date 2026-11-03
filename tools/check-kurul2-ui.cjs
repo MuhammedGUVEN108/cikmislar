@@ -38,10 +38,13 @@ assert.equal($('filtered-count').textContent,'469');$('release-continue').click(
 change('year-filter','2021-2022');assert.equal($('filtered-count').textContent,'95');
 $('start-session').click();assert.ok($('question-source').textContent.startsWith('2. Kurul'));
 const q1=ctx.QUESTION_DATA.find(q=>q.id==='imu-d1-k2-2021-2022-q001');
+assert.ok($('ai-support').hidden,'AI must not reveal an answer before choice');assert.equal($('ai-explanation').textContent,'');assert.equal($('ai-detail-content').childElementCount,0);
 $('question-options').querySelector('[data-label="'+q1.sourceKeys[0]+'"]').click();assert.equal($('correct-count').textContent,'1');
+assert.ok(!$('ai-support').hidden&&$('ai-support').open);assert.equal($('ai-explanation').textContent,ctx.ARCHIVE_EXPLANATIONS[q1.id].summary);assert.equal($('ai-detail-content').childElementCount,2);
 const wrong=q1.sourceKeys[0]==='A'?'B':'A';$('question-options').querySelector('[data-label="'+wrong+'"]').click();assert.equal($('correct-count').textContent,'1');assert.equal($('wrong-count').textContent,'0');
 $('next-question').click();assert.ok($('question-warning').textContent.includes('eksik'));
 $('question-options').querySelector('[data-label="A"]').click();assert.equal($('review-count').textContent,'1');assert.equal($('wrong-count').textContent,'0');
+assert.ok($('ai-support').hidden,'Incomplete question must have no AI');assert.equal($('ai-explanation').textContent,'');assert.equal($('ai-detail-content').childElementCount,0);
 for(let i=0;i<16;i++)$('next-question').click();assert.ok($('question-visuals').childElementCount>0,'Question 18 source table missing');
 $('generated-mode-toggle').click();assert.ok($('committee-field').hidden);assert.equal($('filtered-count').textContent,'90');
 $('generated-back').click();assert.equal($('committee-filter').value,'2');assert.equal($('year-filter').value,'2021-2022');assert.equal($('review-count').textContent,'1');
@@ -54,5 +57,27 @@ $('subject-filters').querySelector('[data-subject="Ders belirtilmemiş"]').click
 $('start-session').click();assert.equal($('question-subject').textContent,'Ders belirtilmemiş');
 $('open-question-info').click();assert.ok($('question-info-dialog').open);$('source-details').open=true;$('source-details').emit('toggle');assert.ok($('source-images').childElementCount>0);
 assert.ok(!$('question-source').textContent.includes('Soru sahibi'));
+// Exercise every K2 question, including wrong first choices, visual options and excluded records.
+$('question-info-dialog').close();$('back-to-setup').click();$('reset-filters').click();change('committee-filter','2');
+let aiUiQuestions=0;
+for(const year of [...new Set(ctx.QUESTION_DATA.filter(q=>q.committee===2).map(q=>q.year))].sort()) {
+ change('year-filter',year);$('start-session').click();
+ const questions=ctx.QUESTION_DATA.filter(q=>q.committee===2&&q.year===year);
+ for(const [i,q] of questions.entries()) {
+  assert.ok($('ai-support').hidden,'Pre-answer AI leak '+q.id);assert.equal($('ai-explanation').textContent,'');assert.equal($('ai-detail-content').childElementCount,0);
+  $('question-options').querySelector('[data-label="A"]').click();const detail=ctx.ARCHIVE_EXPLANATIONS[q.id];
+  assert.equal(Boolean($('ai-support').hidden),!detail,'Visibility '+q.id);
+  if(detail) {
+   assert.ok($('ai-support').open);assert.equal($('ai-explanation').textContent,detail.summary);
+   for(const o of detail.options)assert.ok($('ai-detail-content').textContent.includes(o.reason),'Reason render '+q.id+' '+o.label);
+   for(const term of detail.terms)assert.ok($('ai-detail-content').textContent.includes(ctx.ARCHIVE_GLOSSARY[term]),'Term render '+q.id);
+  }else{assert.equal($('ai-explanation').textContent,'');assert.equal($('ai-detail-content').childElementCount,0);}
+  aiUiQuestions++;if(i<questions.length-1)$('next-question').click();
+ }
+ $('back-to-setup').click();
+}
+assert.equal(aiUiQuestions,469);
+$('generated-mode-toggle').click();$('start-session').click();assert.ok($('ai-support').hidden);$('question-options').querySelector('[data-label="A"]').click();assert.ok(!$('ai-support').hidden&&$('ai-support').open);assert.equal($('ai-detail-content').childElementCount,2,'Practice support preserved');
 const report={passed:true,method:'Node VM DOM simulation; NOT a browser/visual test',checks:['deep link kurul=2','committee/year/subject filters','first answer locks','incomplete source review only','source table render model','generated mode separate','archive session restored','unsupported year resets','reset all committees','unknown subject filter','source dialog']};
+report.aiUiQuestions=aiUiQuestions;report.checks.push('all K2 AI panels after answer only','excluded questions no AI','1720 option reasons and glossary render','practice support preserved');
 fs.mkdirSync(path.join(root,'_work/reports'),{recursive:true});fs.writeFileSync(path.join(root,'_work/reports/kurul2-ui-check.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));

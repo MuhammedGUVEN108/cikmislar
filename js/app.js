@@ -104,26 +104,32 @@
     $('answered-count').textContent = `${stats.answered} / ${stats.total} cevaplandı`;
     $('session-progress').style.width = `${stats.total ? stats.answered / stats.total * 100 : 0}%`;
   }
-  function renderLearningDetails(q) {
+  function learningDetail(q) {
+    return q.origin==='generated' ? window.GENERATED_EXPLANATIONS?.[q.id] : window.ARCHIVE_EXPLANATIONS?.[q.id];
+  }
+  function renderLearningDetails(q, answer) {
     const container=$('ai-detail-content');
-    const detail=q.origin==='generated' ? window.GENERATED_EXPLANATIONS?.[q.id] : null;
+    const detail=answer ? learningDetail(q) : null;
     container.hidden=!detail;
-    if(container.dataset.questionId===q.id)return;
-    container.dataset.questionId=q.id;container.replaceChildren();
+    const renderKey=`${q.id}:${Boolean(answer)}`;
+    if(container.dataset.questionId===renderKey)return;
+    container.dataset.questionId=renderKey;container.replaceChildren();
     if(!detail)return;
     const options=element('details','ai-reading-section');
     options.append(element('summary','','Şıkları tek tek incele · A–E'));
     const list=element('div','ai-option-reasons');
     for(const item of detail.options) {
       const block=element('section','ai-option-reason');
-      block.append(element('h3','',`${item.label} · ${item.isCorrect?'Neden doğru?':'Neden olmaz?'}`),element('p','ai-option-quote',item.optionText),element('p','',item.reason));
+      const heading=q.origin==='generated' ? (item.isCorrect?'Neden doğru?':'Neden olmaz?') : (item.isCorrect?'Neden seçilir?':'Neden seçilmez?');
+      block.append(element('h3','',`${item.label} · ${heading}`),element('p','ai-option-quote',item.optionText || (q.options.find(o=>o.label===item.label)?.image ? 'Görsel seçenek' : '')),element('p','',item.reason));
       list.append(block);
     }
     options.append(list);options.addEventListener('toggle',scheduleFit);container.append(options);
     const terms=element('details','ai-reading-section');
     terms.append(element('summary','',`Terimleri açıkla · ${detail.terms.length} kavram`));
     const definitions=element('dl','ai-glossary');
-    for(const term of detail.terms) definitions.append(element('dt','',term),element('dd','',window.GENERATED_GLOSSARY[term]));
+    const glossary=q.origin==='generated' ? window.GENERATED_GLOSSARY : window.ARCHIVE_GLOSSARY;
+    for(const term of detail.terms) definitions.append(element('dt','',term),element('dd','',glossary[term]));
     terms.append(definitions);terms.addEventListener('toggle',scheduleFit);container.append(terms);
   }
   function renderQuestion(focus = false) {
@@ -143,11 +149,14 @@
     $('question-stem').textContent = q.stem;
     $('generated-question-disclaimer').hidden = q.origin !== 'generated';
     const aiSupport = $('ai-support');
+    const aiDetail=answer ? learningDetail(q) : null;
+    const excluded=window.ARCHIVE_AI_MANIFEST?.excluded.some(item=>item.id===q.id);
+    aiSupport.hidden=!answer || excluded || (!aiDetail && !q.aiExplanation);
     if (aiSupport.dataset.questionId !== q.id) aiSupport.open = false;
     aiSupport.dataset.questionId = q.id;
-    if (q.origin === 'generated' && answer) aiSupport.open = true;
-    $('ai-explanation').textContent = q.aiExplanation || 'Bu soru için AI açıklaması eklenmedi.';
-    renderLearningDetails(q);
+    if (!aiSupport.hidden && answer) aiSupport.open = true;
+    $('ai-explanation').textContent = answer && !excluded ? (aiDetail?.summary || q.aiExplanation || '') : '';
+    renderLearningDetails(q, excluded ? null : answer);
     $('question-id').textContent = q.id;
     $('question-pages').textContent = q.origin === 'generated' ? `${q.topic} · Teorik deneme sorusu` : `${q.sourceImageKind === 'reformatted_book' ? 'Düzenlenmiş kitapçık sayfası' : 'Kaynak sayfa'}: ${q.pages.join(', ')}`;
     $('source-summary-label').textContent = q.origin === 'generated' ? 'Slayt kaynağını ve metnini aç' : 'Kaynak sayfasını aç';

@@ -89,3 +89,8 @@ Kaynak PDF ve veri dosyalarına yazılmamıştır.
 ## 2. Kurul aktarımı · 2026-11-02
 
 2021–2026 beş yılın 469 sorusu eklendi. Kurul/yıl/ders birlikte filtrelenebilir. Kaynağı eksik 10 yeni soru puan dışıdır. Kaynakta ders bilgisi bulunmayan 2022–2023 kayıtları Ders belirtilmemiş olarak korunur. Kaynak anahtarları ve özgün görseller korunmuş, soru sahibi isimleri arayüze eklenmemiştir.
+
+
+## 2. Kurul AI desteği · 3 Kasım 2026
+
+344 soruda çözüm özeti, 1720 şık gerekçesi ve 108 terimlik sözlük bulunur. Eksik veya tartışmalı 125 soruya AI eklenmedi. Açıklama yalnız cevap seçiminden sonra açılır; kaynak sorular ve anahtarlar korunur. AI metinleri bağımsız akademik doğrulama değildir. Ayrıntılar: [AI desteği](docs/AI_SUPPORT.md), [dışlama listesi](docs/AI_KURUL2_KONTROL.md).
