@@ -479,10 +479,11 @@ html[data-question-mode='generated'] #question-source { max-width:55%; text-alig
 .topbar-feedback { display: none; }
 @media (min-width: 1081px) {
   .brand-row > .brand-feedback { display: none; }
-  .topbar-feedback { display: inline-flex; gap: 9px; margin-left: 8px; padding-left: 18px; border-left: 1px solid var(--wd-line); }
+  .topbar-feedback { display: inline-flex; gap: 9px; margin-left: 8px; padding: 7px 12px; border: 1px solid var(--wd-line); border-radius: 3px; background: var(--app-panel); }
   .topbar-feedback .brand-feedback-copy { display: block; font-size: 10px; line-height: 1.5; }
   .topbar-feedback .brand-feedback-copy > span { color: var(--wd-muted); }
   .topbar-feedback .brand-feedback-copy > strong { font-size: 11px; color: var(--wd-text); }
+  .topbar-feedback:hover { border-color: var(--wd-line-strong); background: var(--wd-hover-bg); }
 }
 @media (max-width: 1080px) {
   .brand-row { flex: 1 0 100%; }
