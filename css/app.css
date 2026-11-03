@@ -465,3 +465,11 @@ html[data-question-mode='generated'] #question-source { max-width:55%; text-alig
  .generated-intro p { font-size:12px; }
  .generated-intro .text-button { align-self:flex-end; }
 }
+
+/* Small contact link, visible only within the entry screen. */
+.setup-feedback { display: flex; justify-content: flex-end; margin: 2px 0 8px; }
+.setup-feedback a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; max-width: 100%; color: var(--wd-secondary); font-size: 11px; text-decoration: none; }
+.setup-feedback svg { flex-shrink: 0; }
+.setup-feedback strong { font-weight: 500; }
+.setup-feedback a:hover { color: var(--wd-text); text-decoration: underline; text-underline-offset: 4px; }
+.setup-feedback a:focus-visible { outline: 2px solid var(--wd-text); outline-offset: 4px; }
